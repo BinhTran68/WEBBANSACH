@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @RepositoryRestResource(path = "quyen")
 public interface QuyenRepository extends JpaRepository<Quyen, Integer> {
+
+    Quyen findByTenQuyen(String tenQuyen);
 }
+
