@@ -33,12 +33,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
           config ->config
-                  .requestMatchers(HttpMethod.GET, "/sach").permitAll()
-                  .requestMatchers(HttpMethod.GET, "/sach/**").permitAll()
-                  .requestMatchers(HttpMethod.GET, "/hinh-anh").permitAll()
-                  .requestMatchers(HttpMethod.GET, "/hinh-anh/**").permitAll()
-                  .requestMatchers(HttpMethod.GET, "/nguoi-dung").hasAnyAuthority("/nguoi-dung/search/**")
-                .requestMatchers(HttpMethod.POST, "/api/account/register").permitAll()
+                    .requestMatchers(HttpMethod.GET, Endpoints.PUBLIC_GET_ENDPOINTS).permitAll()
+                    .requestMatchers(HttpMethod.POST, Endpoints.PUBLIC_POST_ENDPOINTS).permitAll()
+
+
         );
 
         http.httpBasic(Customizer.withDefaults());

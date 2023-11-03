@@ -2,6 +2,7 @@ package com.vn.webbansach_backend.controller;
 
 import com.vn.webbansach_backend.entity.NguoiDung;
 import com.vn.webbansach_backend.service.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,8 +29,8 @@ public class AccountController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<?> registerUser(@Validated @RequestBody NguoiDung nguoiDung) {
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody NguoiDung nguoiDung) {
         return accountService.registerUser(nguoiDung);
     }
 
