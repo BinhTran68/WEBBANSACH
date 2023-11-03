@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.Date;
+
 @Getter
 @Setter
-public class Message {
-
-    private  String message;
-
+@AllArgsConstructor
+@NoArgsConstructor
+public class ErrorResponse {
+    private String message;
 }

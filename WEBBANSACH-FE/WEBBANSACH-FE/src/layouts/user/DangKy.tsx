@@ -3,6 +3,7 @@ import { debounce } from '@mui/material';
 import React, { useCallback, useEffect } from 'react'
 import { useState } from "react";
 import { baseUrl } from '../ultils/config';
+import { emit } from 'process';
 
 
 
@@ -25,11 +26,13 @@ const DangKy = () => {
     const [errorHoDem, setErrorHoDem] = useState("");
     const [errorTen, setErrorTen] = useState("");
     const [errorSoDienThoai, setErrorSoDienThoai] = useState("");
+    const [thongBao, setThongBao] = useState("");
+    const [statusThongBao, setStatusThongBao] = useState(true);
 
 
 
     const handleSubmit = async (e: React.FormEvent) => {
-         
+
         e.preventDefault();
 
         const isTenDangNhapValid = kiemTraEmailDaTonTai(tenDangNhap);
@@ -54,7 +57,7 @@ const DangKy = () => {
             setMatKhau("Mật khẩu không được để trống")
             return false;
         }
-        
+
         if (hoDem.trim() == "") {
             setErrorHoDem("Họ đệm không được để trống");
             return false;
@@ -70,9 +73,45 @@ const DangKy = () => {
             setSoDienThoai("Số điện thoại không được để trống")
             return false;
         }
-    
 
-        
+        try {
+            const url = `${baseUrl}/api/account/register`
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    tenDangNhap: tenDangNhap,
+                    email: email,
+                    matKhau: matKhau,
+                    hoDem: hoDem,
+                    ten: ten,
+                    soDienThoai: soDienThoai,
+                    gioiTinh: gioiTinh
+                })
+
+            });
+            if (response.ok) {
+                setStatusThongBao(true);
+                setThongBao("Đăng kí thành công");
+            } else {
+            
+                const json = await response.json ();
+                setStatusThongBao(false);
+                setThongBao(json.message); // lấy ra thông báo;
+                
+            }
+
+        } catch (error) {
+            setStatusThongBao(false);
+            setThongBao("Gặp lỗi trong quá trình đăng kí");
+
+        }
+
+
+
 
 
     }
@@ -182,10 +221,10 @@ const DangKy = () => {
 
     // Xử lí nhập số điện thoại 
 
-    const regexPhoneNumber  =/(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+    const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
 
 
-    const kiemTraSoDienThoai = async (soDienThoai:string) => {
+    const kiemTraSoDienThoai = async (soDienThoai: string) => {
         if (!regexPhoneNumber.test(soDienThoai)) {
             setErrorSoDienThoai("Số điện thoại không hợp lệ");
             return false;
@@ -201,32 +240,32 @@ const DangKy = () => {
                 return false
             }
             return true;
-            
+
         } catch (error) {
             console.log("Lỗi xảy ra khi nhập số điện thoại");
-            
+
         }
 
-        
+
     }
 
     const handlerSoDienThoai = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSoDienThoai(e.target.value);
         setErrorSoDienThoai('');
-        
+
     }
 
-    const handleChangeGioiTinh =  (e: React.ChangeEvent<HTMLInputElement>) => {
-     
+    const handleChangeGioiTinh = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         const gioiTinh = e.target.value;
         if (gioiTinh == "Nam") {
             setGioiTinh(true);
-        }else {
+        } else {
             setGioiTinh(false);
         }
-        
 
-        
+
+
     }
 
 
@@ -315,22 +354,22 @@ const DangKy = () => {
                     <div className='mb-3 d-flex align-items-center'>
                         <label htmlFor='ten' className='form-label me-5'>Giới Tính :</label>
                         <div className="form-check me-3">
-                            <input className="form-check-input" type="radio" 
-                            value="Nam" 
-                            name="gioiTinh" id="gioiTinhNam"
-                            onChange={handleChangeGioiTinh}
+                            <input className="form-check-input" type="radio"
+                                value="Nam"
+                                name="gioiTinh" id="gioiTinhNam"
+                                onChange={handleChangeGioiTinh}
                             />
                             <label className="form-check-label">
                                 Nam
                             </label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="radio" 
-                            value="Nữ" 
-                            name="gioiTinh" 
-                            id="gioiTinhNam"
-                            onChange={handleChangeGioiTinh}
-                             />
+                            <input className="form-check-input" type="radio"
+                                value="Nữ"
+                                name="gioiTinh"
+                                id="gioiTinhNam"
+                                onChange={handleChangeGioiTinh}
+                            />
                             <label className="form-check-label" >
                                 Nữ
                             </label>
@@ -353,9 +392,7 @@ const DangKy = () => {
                         <button type='submit' className='btn btn-danger  '>Đăng Kí</button>
                     </div>
 
-
-
-
+                    <div style={statusThongBao === true ? { color: "green" } : { color: "red" }}>{thongBao}</div>
 
 
                 </form>

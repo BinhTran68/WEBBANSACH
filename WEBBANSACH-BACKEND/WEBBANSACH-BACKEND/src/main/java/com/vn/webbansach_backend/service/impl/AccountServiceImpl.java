@@ -2,6 +2,7 @@ package com.vn.webbansach_backend.service.impl;
 
 import com.vn.webbansach_backend.entity.NguoiDung;
 import com.vn.webbansach_backend.repository.NguoiDungRepository;
+import com.vn.webbansach_backend.response.ErrorResponse;
 import com.vn.webbansach_backend.response.Message;
 import com.vn.webbansach_backend.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseEntity<?> registerUser(NguoiDung nguoiDung) {
         if (nguoiDungRepository.existsByTenDangNhap(nguoiDung.getTenDangNhap())) {
-            return ResponseEntity.badRequest().body(new Message("Người dùng đã tồn tại"));
+
+            System.out.println("Chạy vào hàm này");
+            ErrorResponse errorResponse = new ErrorResponse("Tên đăng nhập đã tồn tại" );
+            return ResponseEntity.status(400).body(errorResponse);
         }
         if (nguoiDungRepository.existsByEmail(nguoiDung.getEmail())) {
             return ResponseEntity.badRequest().body(new Message("Email đã tồn tại"));
