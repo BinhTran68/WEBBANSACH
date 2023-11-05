@@ -4,6 +4,7 @@ import React, { useCallback, useEffect } from 'react'
 import { useState } from "react";
 import { baseUrl } from '../ultils/config';
 import { emit } from 'process';
+import { log } from 'console';
 
 
 
@@ -96,16 +97,22 @@ const DangKy = () => {
             if (response.ok) {
                 setStatusThongBao(true);
                 setThongBao("Đăng kí thành công");
-            } else {
-            
-                const json = await response.json ();
+            } else  {
                 setStatusThongBao(false);
+                setThongBao("Có lỗi xảy ra");
+                const json = await response.json();
+                for(var key in json) {
+                        setThongBao("Có lỗi xảy ra : "+json[key]);
+                        console.log("Chạy vào lỗi email");
+                        return;
+                }
                 setThongBao(json.message); // lấy ra thông báo;
-                
+
             }
 
         } catch (error) {
             setStatusThongBao(false);
+        
             setThongBao("Gặp lỗi trong quá trình đăng kí");
 
         }
@@ -356,7 +363,7 @@ const DangKy = () => {
                         <div className="form-check me-3">
                             <input className="form-check-input" type="radio"
                                 value="Nam"
-                                name="gioiTinh" id="gioiTinhNam"
+                                name="gioiTinh" id="gioiTinhNam" checked
                                 onChange={handleChangeGioiTinh}
                             />
                             <label className="form-check-label">

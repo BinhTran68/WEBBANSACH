@@ -90,7 +90,7 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
                         <strong>{renderRaiting(props.book.trungBinhXepHang?props.book.trungBinhXepHang: 5)}</strong>
                         <div className="price d-block">
                             <span className="original-price">
-                                <strong className={'text-danger text-orgin-price'}>
+                                <strong className={'price-book text-danger text-orgin-price'}>
                                     {props.book.giaBan != (undefined || null) ? formattedPrice(props.book.giaBan) : formattedPrice(0)}
                                 </strong>
                             </span>

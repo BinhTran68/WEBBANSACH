@@ -59,7 +59,7 @@ const FeaturedProducts: React.FC<Props> = ({ fetchBooks }) => {
 
                 {
                     productList.map((book) => (
-                        <div className='col-xl-2 col-md-3 book-hover'>
+                        <div className='col-xl-2 col-md-4 book-hover'>
                             <BookProps key={book.maSach} book={book} />
                         </div>
                     ))

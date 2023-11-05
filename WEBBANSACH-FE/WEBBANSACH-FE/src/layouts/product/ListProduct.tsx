@@ -17,17 +17,14 @@ const ListProduct: React.FC = () => {
 
     const [baoLoi, setBaoLoi] = useState(false);
 
-    const [messageBaoLoi, setMessageBaoLoi] = useState('');
-
     const [currentPage, setCurrentPage] = useState(1);
 
     const [totalPage, setTotalPage] = useState(0);
 
-    const [sizeItemPage, setSizeItemPage] = useState(0);
+    const [filterByPrice, setFillterByPrice] = useState();
 
-    // const pagination = (page : number) => {
-    //     setCurrentPage(page);
-    // }  
+
+
 
     const handleChange = (event: any, page: number) => {
         // Cập nhật state của currentPage bằng value
@@ -103,8 +100,8 @@ const ListProduct: React.FC = () => {
                     <h6>Khoảng Giá</h6>
                     <div className='ms-2'>
                         <div className="form-check">
-
-                            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                            <input className="form-check-input" type="checkbox" value="
+                            " id="flexCheckDefault" />
                             <small className="form-check-label" >
                                 0đ - 150,000đ
                             </small>
@@ -137,11 +134,17 @@ const ListProduct: React.FC = () => {
                 </div>
 
             </div>
-            <div className='col-md-10 p-0'>
+            <div className='col-md-10  p-0'>
+                <div>
+                    <div className=' d-flex align-items-center justify-content-start'>
+                        <a className='p-3' href="">Phổ Biến</a>
+                    </div>
+                </div>
+
                 <div className={"row mb-4 mt-4 "}>
                     {
                         productList.map((book) => (
-                            <div className='col-md-3 book-hover'>
+                            <div className='col-md-4 col-xl-3 book-hover'>
                                 <BookProps key={book.maSach} book={book} />
                             </div>
 

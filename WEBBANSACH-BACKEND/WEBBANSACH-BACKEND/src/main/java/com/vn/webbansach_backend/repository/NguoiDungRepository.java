@@ -16,4 +16,6 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, Integer> {
 
     NguoiDung findNguoiDungByTenDangNhap(String tenDangNhap);
 
+    NguoiDung findNguoiDungByEmail(String email);
+
 }

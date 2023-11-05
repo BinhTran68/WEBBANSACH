@@ -10,7 +10,9 @@ public class Endpoints {
             "/hinh-anh",
             "/hinh-anh/**",
             "/nguoi-dung/search/**",
-            "/api/account/**"
+            "/api/account/**",
+            "/api/account/activated"
+
 
 
     };

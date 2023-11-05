@@ -46,6 +46,10 @@ public class NguoiDung {
 
     private String diaChiMuaHang;
 
+    private boolean daKichHoat;
+
+    private String maKichHoat;
+
     @OneToMany(
             mappedBy = "nguoiDung",
             fetch = FetchType.LAZY, cascade = {
