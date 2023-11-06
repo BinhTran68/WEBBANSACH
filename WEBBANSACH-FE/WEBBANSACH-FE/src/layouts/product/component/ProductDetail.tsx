@@ -123,10 +123,10 @@ const ProductDetail = () => {
   return (
     <div className='container'>
       <div className='row'>
-        <div className='col-4'>
+        <div className='col-md-4'>
           <HinhAnhSanPham maSach={maSachNumber} />
         </div>
-        <div className='col-8'>
+        <div className='col-md-8'>
           <div className='row'>
             <div className='col-8'>
               <h1>{book.tenSach}</h1>
@@ -135,7 +135,7 @@ const ProductDetail = () => {
               <div dangerouslySetInnerHTML={{ __html: (book.moTa + '') }} ></div>
 
             </div>
-            <div className='col-4'>
+            <div className='col-md-4'>
               <div>
                 <div className='mb-2'>Số Lượng</div>
                 <div className='d-flex align-items-center'>

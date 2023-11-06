@@ -7,6 +7,7 @@ import '../header-footer/header-footer.scss'
 import BookSearch from '../product/component/BookSearch';
 import { debounce } from '@mui/material';
 import { Search } from 'react-bootstrap-icons';
+import {Link} from "react-router-dom";
 
 
 
@@ -61,9 +62,9 @@ const Navbar = () => {
 
     <nav className="navbar navbar-expand-lg bg-light navbar-light bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to={"/"}>
           <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fahasa-logo.png" width="250px" height='50px' alt="" />
-        </a>
+        </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -128,9 +129,9 @@ const Navbar = () => {
         {/* Biểu tượng đăng nhập */}
         <ul className="navbar-nav me-1">
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <Link className="nav-link"  to={"/dangky"}>
               <i className="fas fa-user"></i>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
