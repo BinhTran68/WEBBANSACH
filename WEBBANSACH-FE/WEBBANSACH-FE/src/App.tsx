@@ -13,6 +13,7 @@ import NavbarBottom from './layouts/product/component/NavbarBottom';
 import ErrorPage from './layouts/erorr/ErrorPage';
 import DangKy from './layouts/user/DangKy';
 import KichHoatTaiKhoan from './layouts/user/KichHoatTaiKhoan';
+import DangNhap from './layouts/user/DangNhap';
 
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
             <Route path='/san-phams/:maSach' element={<ProductDetail/>} />
             {/* Đăng kí */}
             <Route path='/dangky' element={<DangKy />}/>
+
+            {/* Đăng nhập */}
+            <Route path='/dang-nhap' element={<DangNhap />}/>
             <Route path='/gioi-thieu' element={<About />} />
             <Route path='/404notfound' element={<NotFound404 />} />
             <Route path='/error' element={<ErrorPage />} />

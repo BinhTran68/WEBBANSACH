@@ -19,7 +19,10 @@ public class Endpoints {
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
-            "/api/account/register"
+            "/api/account/register",
+            "/api/account/login",
+
+
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
