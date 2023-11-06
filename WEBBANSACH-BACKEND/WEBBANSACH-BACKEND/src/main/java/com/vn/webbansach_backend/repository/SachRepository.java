@@ -36,5 +36,11 @@ public interface SachRepository extends JpaRepository<Sach, Integer> {
     Page<Sach> findByGiaBanIsBetweenAndDanhSachTheLoaiIn(@RequestParam ("giaMin") double giaMin, @RequestParam("giaMax") double giaMax , @RequestParam ("theLoaiIds") List<Integer> theLoaiIds, Pageable pageable);
 
 
+//    @Query(value = "SELECT * FROM sach s JOIN the_loai_sach tls ON s.ma_sach = tls.ma_sach JOIN the_loai tl ON tls.ma_the_loai = tl.ma_the_loai WHERE s.gia_ban BETWEEN :giaMin AND :giaMax AND tl.ma_the_loai IN :theLoaiIds LIMIT :size OFFSET :offset",
+//            countQuery = "SELECT count(*) FROM sach s JOIN the_loai_sach tls ON s.ma_sach = tls.ma_sach JOIN the_loai tl ON tls.ma_the_loai = tl.ma_the_loai WHERE s.gia_ban BETWEEN :giaMin AND :giaMax AND tl.ma_the_loai IN :theLoaiIds", nativeQuery = true)
+//    Page<Sach> findByGiaBanIsBetweenAndDanhSachTheLoaiIn(@RequestParam ("giaMin") double giaMin, @RequestParam("giaMax") double giaMax , @RequestParam ("theLoaiIds") List<Integer> theLoaiIds, @RequestParam("page") int page, @RequestParam("size") int size);
+//
+
+
 
 }

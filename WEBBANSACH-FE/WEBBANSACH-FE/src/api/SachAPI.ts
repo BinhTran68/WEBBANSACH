@@ -64,8 +64,6 @@ export async function getBookBySearchValue(value: string): Promise<ResultAPI> {
 export async function getBookById(bookId:number): Promise<BookModel | null> {
     const url = `${baseUrl}/sach/${bookId}`;
 
-    
-
     let result: BookModel;
 
     try {

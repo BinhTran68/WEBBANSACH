@@ -8,10 +8,11 @@ public class Endpoints {
             "/sach",
             "/sach/**",
             "/hinh-anh",
+            "/the-loai",
             "/hinh-anh/**",
             "/nguoi-dung/search/**",
             "/api/account/**",
-            "/api/account/activated"
+            "/api/account/activated",
 
 
 
