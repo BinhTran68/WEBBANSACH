@@ -4,7 +4,7 @@ import com.vn.webbansach_backend.entity.NguoiDung;
 import com.vn.webbansach_backend.entity.Quyen;
 import com.vn.webbansach_backend.repository.NguoiDungRepository;
 import com.vn.webbansach_backend.repository.QuyenRepository;
-import com.vn.webbansach_backend.service.UserService;
+import com.vn.webbansach_backend.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private NguoiDungRepository nguoiDungRepository;

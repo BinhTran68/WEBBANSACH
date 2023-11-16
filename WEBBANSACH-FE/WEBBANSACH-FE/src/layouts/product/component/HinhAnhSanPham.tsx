@@ -53,7 +53,6 @@ const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
             }
         ).catch(
             error => {
-
                 setBaoLoi(baoLoi);                
             }
         )

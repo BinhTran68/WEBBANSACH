@@ -7,7 +7,7 @@ import com.vn.webbansach_backend.request.NguoiDungRequest;
 import com.vn.webbansach_backend.response.JwtResponse;
 import com.vn.webbansach_backend.security.JwtService;
 import com.vn.webbansach_backend.service.AccountService;
-import com.vn.webbansach_backend.service.UserService;
+import com.vn.webbansach_backend.service.UserDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class AccountController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserService userService;
+    private UserDetailsService userService;
 
     @Autowired
     private JwtService jwtService;
@@ -66,10 +66,10 @@ public class AccountController {
 
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
         if (authentication.isAuthenticated()) {
-            final String jwt = jwtService.generateToken(loginRequest.getUserName());
+            final String jwt = jwtService.generateToken(loginRequest.getUsername());
             return ResponseEntity.status(HttpStatus.OK).body(new JwtResponse(jwt));
         }
 

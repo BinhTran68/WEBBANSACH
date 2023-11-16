@@ -41,6 +41,7 @@ public interface SachRepository extends JpaRepository<Sach, Integer> {
 //    Page<Sach> findByGiaBanIsBetweenAndDanhSachTheLoaiIn(@RequestParam ("giaMin") double giaMin, @RequestParam("giaMax") double giaMax , @RequestParam ("theLoaiIds") List<Integer> theLoaiIds, @RequestParam("page") int page, @RequestParam("size") int size);
 //
 
+    boolean existsByMaSach(Integer maSach);
 
 
 }

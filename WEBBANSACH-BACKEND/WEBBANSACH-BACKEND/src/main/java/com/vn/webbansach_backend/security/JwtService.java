@@ -1,6 +1,5 @@
 package com.vn.webbansach_backend.security;
 
-import com.vn.webbansach_backend.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,10 +22,10 @@ public class JwtService {
 
     // tạo ra jwwt dự trên tên đăng nhập
 
+    // Lấy thêm role từ database add và claims để front-end lấy ra được roles của người dùng
+
     public String generateToken(String tenDangNhap) {
-
         Map<String, Object> claims = new HashMap<>();
-
         return createToken(claims, tenDangNhap);
 
     }

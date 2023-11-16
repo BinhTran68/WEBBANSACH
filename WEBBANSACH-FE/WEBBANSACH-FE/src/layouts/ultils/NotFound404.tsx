@@ -3,7 +3,7 @@ import React from 'react'
 const NotFound404 = () => {
   return (
     <div>
-      Gặp lỗi
+            Đây là trang notfound
     </div>
   )
 }

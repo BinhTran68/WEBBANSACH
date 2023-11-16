@@ -14,35 +14,75 @@ import ErrorPage from './layouts/erorr/ErrorPage';
 import DangKy from './layouts/user/DangKy';
 import KichHoatTaiKhoan from './layouts/user/KichHoatTaiKhoan';
 import DangNhap from './layouts/user/DangNhap';
+import Test from "./layouts/user/Test";
+import ThemSachAdmin from "./layouts/admin/ThemSachAdmin";
+import HomeAdmin from "./layouts/admin/HomeAdmin";
+import UserRoutes from "./router/UserRoutes";
+import AdminLayout from "./router/AdminLayout";
+import UserLayout from "./router/UserLayout";
+import AdminHome from "./layouts/admin/component/AdminHome";
+import QuanLySach from "./layouts/admin/component/QuanLySach";
 
 
 function App() {
 
+  // @ts-ignore
   return (
     <>
-      <HeaderBaner />
-      <div className={'container'}>
+
+      <div className={''}>
+        {/*<BrowserRouter>*/}
+        {/*  <Navbar />*/}
+        {/*  <NavbarBottom/>*/}
+        {/*  <Routes>*/}
+        {/*    <Route path='/' element={<HomePage />} />*/}
+        {/*    <Route path='/san-phams' element={<ListProduct />} />*/}
+        {/*    <Route path='/san-phams/:maSach' element={<ProductDetail/>} />*/}
+        {/*    /!* Đăng kí *!/*/}
+        {/*    <Route path='/dangky' element={<DangKy />}/>*/}
+
+        {/*    /!* Đăng nhập *!/*/}
+        {/*    <Route path='/dang-nhap' element={<DangNhap />}/>*/}
+        {/*    <Route path='/gioi-thieu' element={<About />} />*/}
+        {/*    <Route path='/404notfound' element={<NotFound404 />} />*/}
+        {/*    <Route path='/error' element={<ErrorPage />} />*/}
+        {/*    <Route path='/test' element={<Test />} />*/}
+        {/*    <Route path='/kich-hoat/:email/:maKichHoat' element={<KichHoatTaiKhoan/>}/>*/}
+        {/*    <Route path={'/admin/add-sach'} element={<ThemSachAdmin/> } />*/}
+        {/*    <Route path={'/admin'} element={<HomeAdmin/> } />*/}
+        {/*  </Routes>*/}
+        {/*  <Footer />*/}
+        {/*</BrowserRouter>*/}
+
         <BrowserRouter>
-          <Navbar />
-          <NavbarBottom/>
-         
           <Routes>
+            <Route path="/" element={<UserLayout />}>
+              <Route path='/' element={<HomePage/>}/>
+              <Route path='/san-phams' element={<ListProduct/>}/>
+              <Route path='/san-phams/:maSach' element={<ProductDetail/>}/>
+              {/* Đăng kí */}
+              <Route path='/dangky' element={<DangKy/>}/>
 
-            <Route path='/' element={<HomePage />} />
-            <Route path='/san-phams' element={<ListProduct />} />
-            <Route path='/san-phams/:maSach' element={<ProductDetail/>} />
-            {/* Đăng kí */}
-            <Route path='/dangky' element={<DangKy />}/>
+              {/* Đăng nhập */}
+              <Route path='/dang-nhap' element={<DangNhap/>}/>
+              <Route path='/gioi-thieu' element={<About/>}/>
+              <Route path='/404notfound' element={<NotFound404/>}/>
+              <Route path='/error' element={<ErrorPage/>}/>
+              <Route path='/test' element={<Test/>}/>
+              <Route path='/kich-hoat/:email/:maKichHoat' element={<KichHoatTaiKhoan/>}/>
+              <Route path="*" element={<NotFound404 />} />
+            </Route>
+            <Route path={"/admin"} element={<AdminHome/>} >
+              <Route path={"/admin/add-sach"} element={<ThemSachAdmin/>}/>
+              <Route path={"/admin/quan-ly-sach"} element={<QuanLySach/>}/>
 
-            {/* Đăng nhập */}
-            <Route path='/dang-nhap' element={<DangNhap />}/>
-            <Route path='/gioi-thieu' element={<About />} />
-            <Route path='/404notfound' element={<NotFound404 />} />
-            <Route path='/error' element={<ErrorPage />} />
-            <Route path='/kich-hoat/:email/:maKichHoat' element={<KichHoatTaiKhoan/>}/>
+            </Route>
+
           </Routes>
-          <Footer />
         </BrowserRouter>
+
+
+
 
       </div>
     </>

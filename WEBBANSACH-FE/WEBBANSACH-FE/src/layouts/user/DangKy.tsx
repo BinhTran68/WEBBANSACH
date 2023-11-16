@@ -399,7 +399,7 @@ const DangKy = () => {
                         <button type='submit' className='btn btn-danger  '>Đăng Kí</button>
                     </div>
 
-                    <div style={statusThongBao === true ? { color: "green" } : { color: "red" }}>{thongBao}</div>
+                    <div style={statusThongBao ? { color: "green" } : { color: "red" }}>{thongBao}</div>
 
 
                 </form>

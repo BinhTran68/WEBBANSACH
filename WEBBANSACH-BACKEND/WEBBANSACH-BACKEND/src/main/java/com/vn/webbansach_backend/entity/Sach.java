@@ -10,14 +10,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+@Builder(toBuilder = true)
 @Table(name = "sach")
 public class Sach {
 
@@ -37,6 +49,17 @@ public class Sach {
 
     @Column(name = "mo_ta", columnDefinition = "text")
     private String moTa;
+
+    private boolean hangChinhHang;
+
+    private String dichGia;
+
+    private String loaiBia;
+
+    private int soTrang;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date ngayXuatBan;
 
     @Column(name = "gia_niem_yet")
     private double giaNiemYet;
@@ -59,6 +82,17 @@ public class Sach {
             inverseJoinColumns = @JoinColumn(name = "ma_the_loai")
     )
     List<TheLoai> danhSachTheLoai;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE
+    })
+    @JoinTable(
+            name = "sach_nhaphathanh",
+            joinColumns = @JoinColumn(name = "ma_sach"),
+            inverseJoinColumns = @JoinColumn(name = "ma_nha_phat_hanh")
+    )
+    List<NhaPhatHanh> danhSachNhaPhatHanh;
+
 
 
     @OneToMany(
@@ -86,7 +120,17 @@ public class Sach {
             CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE , CascadeType.REMOVE
     })
     List<SachYeuThich> danhSachYeuThich;
-    // 1 sách có nhiều người yêu thích
+
+
+    @ManyToOne(
+            cascade = {
+                    CascadeType.PERSIST, CascadeType.DETACH,
+                    CascadeType.REFRESH, CascadeType.MERGE
+            }
+    )
+    @JoinColumn(name = "ma_nha_xuat_ban", nullable = false) // Bắt buộc phải xác định ảnh này thuộc sách này
+    private NhaXuatBan nhaXuatBanSach;
+
 
 
 }

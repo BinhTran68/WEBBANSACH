@@ -13,7 +13,9 @@ public class Endpoints {
             "/nguoi-dung/search/**",
             "/api/account/**",
             "/api/account/activated",
-
+            "/nha-xuat-ban",
+            "/nha-xuat-ban/**",
+            "/nha-phat-hanh"
 
 
     };
@@ -23,11 +25,17 @@ public class Endpoints {
             "/api/account/login",
 
 
+
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/nguoi-dung",
             "/nguoi-dung/**",
+
+    };
+
+    public static final String[] ADMIN_POST_ENDPOINTS = {
+            "/api/admin/san-pham/**"
     };
 
 }

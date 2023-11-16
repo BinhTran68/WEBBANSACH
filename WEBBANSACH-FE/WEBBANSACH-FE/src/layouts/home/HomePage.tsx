@@ -20,7 +20,7 @@ function HomePage() {
    }
 
    return (
-      <div className=''>
+      <div className='container'>
          <Baner />
          <Carousel />
          <div className='head-featured mt-5' >

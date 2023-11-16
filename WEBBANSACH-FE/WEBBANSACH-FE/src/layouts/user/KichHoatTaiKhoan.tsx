@@ -18,8 +18,6 @@ const KichHoatTaiKhoan = () => {
             handlerActive();
         }
 
-
-
     }, []);
 
     const handlerActive = async () => {

@@ -60,7 +60,7 @@ const Navbar = () => {
 
   return (
 
-    <nav className="navbar navbar-expand-lg bg-light navbar-light bg-light">
+    <nav className="container navbar navbar-expand-lg bg-light navbar-light bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to={"/"}>
           <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fahasa-logo.png" width="250px" height='50px' alt="" />

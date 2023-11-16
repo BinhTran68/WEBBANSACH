@@ -1,0 +1,20 @@
+.nav-left {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  z-index: 10;
+}
+
+.content {
+  margin-left: 200px;
+}
+
+.header-admin {
+  height: 50px;
+}
+
+.slidebar-link {
+  cursor: pointer;
+}
