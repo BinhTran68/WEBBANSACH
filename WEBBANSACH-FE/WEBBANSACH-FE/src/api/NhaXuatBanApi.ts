@@ -15,3 +15,17 @@ export async function getAllNhaXuatBan(): Promise<NhaXuatBanModel[]> {    // Ho�
     return listNhaXuatBan.nhaXuatBans;
 }
 
+export async function getNhaXuatBanByMaSach(maSach: string | undefined | number) : Promise<NhaXuatBanModel> {    // Hoạt động bất đồng bộ lấy ra toàn bộ sách
+    const result: TheLoaiModel[] = []; // Biến lưu giá trị trả về
+
+    const uri: string = `${baseUrl}/api/nha-xuat-ban/get-by-masach?maSach=${maSach}`;
+
+    const reponse = await getRequest(uri); // Tạm dừng để lấy dữ liệu
+
+
+    return  reponse;
+}
+
+
+
+

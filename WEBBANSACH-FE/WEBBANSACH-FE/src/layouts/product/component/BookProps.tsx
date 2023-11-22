@@ -5,6 +5,7 @@ import IImageModel from "../../../models/IImageModel";
 import { Link } from 'react-router-dom';
 import DangTaiDuLieuComponent from '../../ultils/DangTaiDuLieuComponent';
 import renderRaiting from '../../ultils/renderRaiting';
+import {nlNL} from "@mui/material/locale";
 
 interface BookPropsInterface {
 
@@ -23,6 +24,9 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
 
     const [error, setError] = useState(null);
 
+    const [percentDiscount, setPercentDiscount] = useState(0);
+
+
     useEffect(() => {
         getAllImageByIdBook(bookId).then(
             imageData => {
@@ -36,6 +40,22 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
         );
 
     }, []) // chỉ gọi 1 lần
+
+    useEffect(() => {
+
+        // @ts-ignore
+        let  percentDiscount = (props.book.giaNiemYet - props.book.giaBan)/props.book.giaNiemYet*100;
+
+
+        if (isNaN(percentDiscount) || percentDiscount == undefined ) {
+            setPercentDiscount(0);
+        }else  {
+            setPercentDiscount(parseInt(percentDiscount.toString()));
+        }
+
+
+    }, [])
+
 
     if (loadingData) {
         return (
@@ -88,39 +108,35 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
                         <h6 className="card-title text-truncate">{props.book.tenSach}</h6>
                         <p className="card-text  text-truncate">{props.book.moTa}</p>
                         <strong>{renderRaiting(props.book.trungBinhXepHang?props.book.trungBinhXepHang: 5)}</strong>
-                        <div className="price d-block">
+
+                        <div className={"d-flex align-items-center justify-content-between"}>
+                            <div className="price d-block">
                             <span className="original-price">
                                 <strong className={'price-book text-danger text-orgin-price'}>
                                     {props.book.giaBan != (undefined || null) ? formattedPrice(props.book.giaBan) : formattedPrice(0)}
                                 </strong>
                             </span>
-                            <br />
-                            <span className="discounted-price">
+                                <br />
+                                <span className="discounted-price">
                                 <del className={'text-discounted'}>
                                     {props.book.giaNiemYet != (undefined || null) ? formattedPrice(props.book.giaNiemYet) : formattedPrice(0)}
                                 </del>
                             </span>
+                            </div>
+                            <div>
+                                <div className={"percentDiscount"}>
+                                    {percentDiscount}%
+                                </div>
+                            </div>
+
                         </div>
+
+
 
                     </div>
 
                 </Link>
 
-
-
-                <div className="d-flex align-items-center  p-0 justify-content-around" role="group">
-                    {/* <div className=" p-0">
-                        <a href="#" className="btn  btn-secondary btn-block">
-                            <i className="fas fa-heart"></i>
-
-                        </a>
-                    </div>
-                    <div className=" p-0">
-                        <button className="btn btn-danger btn-block">
-                            <i className="fas fa-shopping-cart"></i>
-                        </button>
-                    </div> */}
-                </div>
 
 
             </div>

@@ -15,7 +15,12 @@ public class Endpoints {
             "/api/account/activated",
             "/nha-xuat-ban",
             "/nha-xuat-ban/**",
-            "/nha-phat-hanh"
+            "/nha-phat-hanh",
+            "/nha-phat-hanh/search/**",
+            "/api/the-loai/get-theloai-by-id-sach",
+            "/api/nha-xuat-ban/get-by-masach",
+            "/api/admin/san-pham/get-book-response/**",
+            "/api/nha-phat-hanh/get-by-masach"
 
 
     };

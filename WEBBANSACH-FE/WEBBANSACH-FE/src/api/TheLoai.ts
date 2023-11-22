@@ -13,3 +13,12 @@ export async function getAllTheLoaiSach(): Promise<TheLoaiModel[]> {    // Hoạ
 
     return listTheLoai.theLoais;
 }
+
+
+export async function getAllTheLoaiSachById(maSach: string | undefined): Promise<TheLoaiModel[]> {    // Hoạt động bất đồng bộ lấy ra toàn bộ sách
+
+    const uri: string = `${baseUrl}/api/the-loai/get-theloai-by-id-sach?maSach=${maSach}`;
+    const reponse = await getRequest(uri); // Tạm dừng để lấy dữ liệu
+
+    return reponse;
+}

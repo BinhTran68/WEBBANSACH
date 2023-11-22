@@ -12,10 +12,12 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 @Data
 @Entity
+@ToString
 @Table(name = "the_loai")
 public class TheLoai {
 

@@ -14,10 +14,15 @@ import com.vn.webbansach_backend.repository.SachRepository;
 import com.vn.webbansach_backend.repository.TheLoaiRepository;
 import com.vn.webbansach_backend.request.SachRequest;
 import com.vn.webbansach_backend.response.Message;
+import com.vn.webbansach_backend.response.SachResponse;
 import com.vn.webbansach_backend.service.SachService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +50,7 @@ public class SachServiceImpl implements SachService {
 
     @Override
     public ResponseEntity<?> saveBookByRequest(SachRequest sachRequest) {
-
+        System.out.println(sachRequest.getMaSach());
         Sach sach = new Sach();
         sach.setMaSach(sach.getMaSach());
         sach.setTenSach(sachRequest.getTenSach());
@@ -65,19 +70,9 @@ public class SachServiceImpl implements SachService {
         List<TheLoai> theLoaiList = new ArrayList<>();
 
         theLoaiList = theLoaiRepository.findAllById(sachRequest.getMaTheLoai());
-//        sachRequest.getMaTheLoai().forEach((maTheLoai) -> {
-//
-//
-//
-//            TheLoai theLoai = theLoaiRepository.findById(maTheLoai)
-//                    .orElseThrow(() -> new TheLoaiNotFoundException("Không tìm thấy thể loại mà bạn yêu cầu"));
-//            theLoaiList.add(theLoai);
-//        });
-
 
         sach.setDanhSachTheLoai(theLoaiList);
 
-//        sach.getDanhSachTheLoai().add(theLoai);
 
         NhaPhatHanh nhaPhatHanh = nhaPhatHanhRepository.findById(sachRequest.getNhaPhatHanh())
                 .orElseThrow(() -> new NhaPhatHanhNotFoundException("Nhà phát hành không tồn tại"));
@@ -95,6 +90,8 @@ public class SachServiceImpl implements SachService {
 
         Sach sachNew = sachRepository.save(sach);
 
+        if (sachRequest.getHinhAnhBase64() != null) {
+
         HinhAnh hinhAnh = new HinhAnh();
         hinhAnh.setMaHinhAnh(0);
         hinhAnh.setSach(sachNew);
@@ -106,6 +103,7 @@ public class SachServiceImpl implements SachService {
         List<HinhAnh> hinhAnhList = new ArrayList<>();
         hinhAnhList.add(hinhAnhNew);
         sach.setDanhSachHinhAnh(hinhAnhList);
+        }
 
         if (sachNew.getMaSach() == sachRequest.getMaSach()) {
             return ResponseEntity.status(200).body(new Message("Cập nhật sách thành công"));
@@ -114,6 +112,12 @@ public class SachServiceImpl implements SachService {
             return ResponseEntity.status(201).body(new Message("Thêm sách thành công"));
         }
         return ResponseEntity.badRequest().body(new Message("Có lỗi xảy ra trong quá trình lưu sách"));
+    }
+
+    @Override
+    public ResponseEntity<?> getAllSachResponse(Pageable pageable) {
+        Page<SachResponse> sachPage = sachRepository.getPageSachResponse(pageable);
+        return ResponseEntity.status(200).body(sachPage);
     }
 
 }

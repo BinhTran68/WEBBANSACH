@@ -1,10 +1,8 @@
 import React from 'react';
 
-import {Outlet} from "react-router-dom";
 
-import HeaderAdmin from "../layouts/admin/component/HeaderAdmin";
-import FooterAdmin from "../layouts/admin/component/FooterAdmin";
-import NavLeft from "../layouts/admin/component/NavLeft";
+
+
 import "../layouts/admin/adminComponent.scss"
 import "./admin-layout.css"
 

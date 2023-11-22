@@ -60,4 +60,8 @@ public class NhaXuatBan {
     })
     List<Sach> danhSachQuyenSach;
 
+    public NhaXuatBan(int maNhaXuatBan, String tenNhaXuatBan) {
+        this.maNhaXuatBan = maNhaXuatBan;
+        this.tenNhaXuatBan = tenNhaXuatBan;
+    }
 }

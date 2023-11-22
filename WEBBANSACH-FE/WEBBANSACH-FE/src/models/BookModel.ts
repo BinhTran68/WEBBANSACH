@@ -8,6 +8,11 @@ class BookModel {
     soLuong?: number;
     tenTacGia?:string;
     trungBinhXepHang?:number;
+    soTrang?:number;
+    isbn?:string;
+    dichGia?:string;
+    loaiBia?:string;
+    hangChinhHang?:boolean;
 
     constructor( maSach: number,
                  tenSach?: string, // có thể bị NULL
@@ -16,7 +21,13 @@ class BookModel {
                  moTa?:string,
                  soLuong?: number,
                  tenTacGia?:string,
-                 trungBinhXepHang?:number,) {
+                 trungBinhXepHang?:number,
+                 soTrang?:number,
+                 isbn?:string,
+                dichGia?:string,
+                loaiBia?:string,
+                hangChinhHang?:boolean,
+                 ) {
         this.maSach= maSach;
         this.tenSach= tenSach;
         this.giaBan= giaBan;
@@ -25,6 +36,11 @@ class BookModel {
         this.soLuong= soLuong;
         this.tenTacGia= tenTacGia;
         this.trungBinhXepHang= trungBinhXepHang;
+        this.soTrang = soTrang;
+        this.isbn = isbn;
+        this.dichGia = dichGia;
+        this.loaiBia = loaiBia;
+        this.hangChinhHang = hangChinhHang;
 
     }
 

@@ -30,3 +30,14 @@ input[type=number]::-webkit-outer-spin-button {
 .price-book {
   font-size: 110%;
 }
+
+.percentDiscount {
+  font-weight: bold;
+  text-align: center;
+  width: 2.5rem;
+  height: 1.8rem;
+  background-color: #f5e5ee;
+  border-radius: 50%;
+  color: red;
+
+}

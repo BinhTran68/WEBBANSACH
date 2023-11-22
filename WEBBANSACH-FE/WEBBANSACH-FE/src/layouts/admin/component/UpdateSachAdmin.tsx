@@ -1,12 +1,11 @@
 import React, {FormEvent, useEffect, useState} from "react";
-import {baseUrl} from "../ultils/config";
-import {getAllTheLoaiSach} from "../../api/TheLoai";
-import TheLoaiModel from "../../models/TheLoaiModel";
-
-import NhaXuatBanModel from "../../models/NhaXuatBanModel";
-import {getAllNhaXuatBan} from "../../api/NhaXuatBanApi";
-import {getAllNhaPhatHanh} from "../../api/NhaPhatHanhApi";
-import INhaPhatHanhModel from "../../models/INhaPhatHanhModel";
+import {baseUrl} from "../../ultils/config";
+import {getAllTheLoaiSach, getAllTheLoaiSachById} from "../../../api/TheLoai";
+import TheLoaiModel from "../../../models/TheLoaiModel";
+import NhaXuatBanModel from "../../../models/NhaXuatBanModel";
+import {getAllNhaXuatBan, getNhaXuatBanByMaSach} from "../../../api/NhaXuatBanApi";
+import {getAllNhaPhatHanh, getAllNhaPhatHanhByIdSach} from "../../../api/NhaPhatHanhApi";
+import INhaPhatHanhModel from "../../../models/INhaPhatHanhModel";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,15 +13,91 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-import {jaJP} from "@mui/material/locale";
-import set = Reflect.set;
+import {useParams} from "react-router-dom";
+import {getBookById} from "../../../api/SachAPI";
+import { ToastContainer, toast } from 'react-toastify';
 
 
-const ThemSachAdmin: React.FC<{}> = () => {
+
+const UpdateSachAdmin: React.FC<{}> = ({}) => {
+
+    const {maSach} = useParams();
+
 
     const [danhSachTheLoai, setDanhSachTheLoai] = useState<TheLoaiModel[]>([]);
     const [danhSachNhaXuatBan, setDanhSachNhaXuatBan] = useState<NhaXuatBanModel[]>([]);
     const [danhSachNhaPhatHanh, setDanhSachNhaPhatHanh] = useState<INhaPhatHanhModel[]>([])
+
+
+    useEffect(() => {
+        if (typeof maSach === "string") {
+            getBookById(parseInt(maSach)).then(
+                (res) => {
+                    // @ts-ignore
+                    setSach(res);
+                }
+            ).catch(
+                (error) => {
+                    alert("Có lỗi xảy ra")
+                }
+            )
+        }
+    }, [])
+
+    useEffect(() => {
+        getNhaXuatBanByMaSach(maSach).then(
+            (res) => {
+
+                setSach((prevSach) => ({...prevSach, nhaXuatBan: res.maNhaXuatBan}))
+
+            }
+        ).catch(
+            (error) => {
+                alert("Có lỗi xảy ra ở nxb")
+            }
+        )
+
+    }, [])
+
+
+    useEffect(() => {
+        getAllTheLoaiSachById(maSach).then(
+            (res) => {
+                const listTenTheLoaiCurrentBook = [];
+                const listIdTheLoai: number[] = [];
+
+                for (const re of res) {
+                    listTenTheLoaiCurrentBook.push(re.tenTheLoai);
+                    listIdTheLoai.push(re.maTheLoai);
+                }
+                setListTenTheLoai(listTenTheLoaiCurrentBook);
+
+                // @ts-ignore
+                setSach((prevState => ({...prevState, maTheLoai: listIdTheLoai})))
+
+            }
+        ).catch(
+            (error) => {
+                toast.warning("Vui lòng cập nhật Thể Loại");
+            }
+        )
+
+    }, [])
+
+
+    useEffect(() => {
+        getAllNhaPhatHanhByIdSach(maSach).then(
+            (res) => {
+                setSach((prevSach) => ({...prevSach, nhaPhatHanh: res.maNhaPhatHanh}))
+            }
+        ).catch(
+            (error) => {
+                // alert("abc")
+                toast.warning("Vui lòng cập nhật nhà phát hành");
+            }
+        )
+
+    }, [])
 
 
     useEffect(() => {
@@ -67,16 +142,16 @@ const ThemSachAdmin: React.FC<{}> = () => {
     }, []);
 
 
-    const [sach, setSach] = useState({
+    let [sach, setSach] = useState({
         maSach: 0,
         tenSach: ' ',
         maTheLoai: [],
         tenTacGia: ' ',
-        ISBN: ' ',
+        isbn: ' ',
         moTa: '',
         hinhAnhBase64: '',
         hangChinhHang: true,
-        nhaPhatHanh: '',
+        nhaPhatHanh: 0,
         dichGia: '',
         loaiBia: ' ',
         soTrang: '',
@@ -87,21 +162,19 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
     })
 
-    // const onChangeSelectTheLoai = (event:React.FormEvent<HTMLSelectElement>) => {
-    //     setSach({...sach, maTheLoai: parseInt(event.currentTarget.value)})
-    // }
-
     const onChangeSelectNhaXuatBan = (event: React.FormEvent<HTMLSelectElement>) => {
         setSach({...sach, nhaXuatBan: parseInt(event.currentTarget.value)})
     }
 
     const onChangeNhaPhatHanh = (event: React.FormEvent<HTMLSelectElement>) => {
+        // @ts-ignore
         setSach({...sach, nhaPhatHanh: (event.currentTarget.value)})
     }
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
 
+        console.log(sach);
 
         const token = localStorage.getItem('token'); //N lấy token trên localStorage
         const url = `${baseUrl}/api/admin/san-pham/add-sach`
@@ -123,11 +196,11 @@ const ThemSachAdmin: React.FC<{}> = () => {
                         tenSach: ' ',
                         maTheLoai: [],
                         tenTacGia: ' ',
-                        ISBN: ' ',
+                        isbn: ' ',
                         moTa: '',
                         hinhAnhBase64: '',
                         hangChinhHang: true,
-                        nhaPhatHanh: '',
+                        nhaPhatHanh: 0,
                         dichGia: '',
                         loaiBia: ' ',
                         soTrang: '',
@@ -148,8 +221,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
         })
     }
 
-    const [personName, setPersonName] = React.useState<string[]>([]);
-    // Selected component
+
     const MenuProps = {
         PaperProps: {
             style: {
@@ -187,6 +259,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
     };
 
 
+
     // @ts-ignore
     // @ts-ignore
     // @ts-ignore
@@ -215,7 +288,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
                            value={sach.tenSach}
                            required={true}
                     />
-                    {/*...sach là giữ nguyên đối tượng sách. Dấu phẩy là để set giá trị cho tên sách*/}
+
                 </div>
 
                 {/* Thể loại sách  */}
@@ -249,7 +322,8 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
                 <div className="mb-3">
                     <label className="form-label" htmlFor="">Nhà xuất bản</label>
-                    <select className="form-select" onChange={event => onChangeSelectNhaXuatBan(event)}>
+                    <select className="form-select" value={sach.nhaXuatBan}
+                            onChange={event => onChangeSelectNhaXuatBan(event)}>
                         <option value={0}>Chọn Nhà xuất bản</option>
                         {
                             danhSachNhaXuatBan.map((nxb) => (
@@ -263,7 +337,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
                 <div className="mb-3">
                     <label className="form-label" htmlFor="">Nhà phát hành</label>
-                    <select className="form-select" onChange={event => onChangeNhaPhatHanh(event)}>
+                    <select className="form-select" value={sach.nhaPhatHanh} onChange={event => onChangeNhaPhatHanh(event)}>
                         <option value={0}>Chọn Nhà Phát Hành</option>
                         {
                             danhSachNhaPhatHanh.map((nph) => (
@@ -293,8 +367,8 @@ const ThemSachAdmin: React.FC<{}> = () => {
                     <label className="form-label" htmlFor="">ISBN</label>
                     <input className="form-control"
                            type="text"
-                           onChange={(e => setSach({...sach, ISBN: e.target.value}))}
-                           value={sach.ISBN}
+                           onChange={(e => setSach({...sach, isbn: e.target.value}))}
+                           value={sach.isbn}
                            required={true}
                     />
                 </div>
@@ -310,32 +384,12 @@ const ThemSachAdmin: React.FC<{}> = () => {
                     />
                 </div>
 
-                {/* Thêm hình ảnh */}
-
-                <div className="mb-3">
-                    <div>
-                        <label className="form-label" htmlFor="exampleTextarea">Hình ảnh (Base64)</label>
-                        <textarea
-                            className="form-control"
-                            value={sach.hinhAnhBase64}
-                            onChange={e => setSach({...sach, hinhAnhBase64: e.target.value})}
-                        />
-                    </div>
-                    <div className={""}>
-                        <img style={{height: "25rem"}}  src={sach.hinhAnhBase64} alt=""/>
-
-                    </div>
-
-
-                </div>
-
-
-                {/* Hàng chính hãng */}
-                <div className={"mb-3"}>
+                <div className={"mb-3 mt-3"}>
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox"
                                onChange={event => setSach({...sach, hangChinhHang: !sach.hangChinhHang})}
-                               defaultChecked={sach.hangChinhHang}
+                               checked={sach.hangChinhHang}
+
                         />
                         <label className="form-check-label" htmlFor="">
                             Hàng chính hãng
@@ -421,9 +475,25 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
             </form>
 
+
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
+
         </div>
     );
 
 }
 
-export default ThemSachAdmin;
+export default UpdateSachAdmin;

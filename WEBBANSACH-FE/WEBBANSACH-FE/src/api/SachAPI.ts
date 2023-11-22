@@ -1,20 +1,18 @@
 import BookModel from "../models/BookModel";
 import { getRequest } from "./Request";
-import { promises } from "dns";
-
-import { log } from "console";
 import { baseUrl } from "../layouts/ultils/config";
+import SachResponseModel from "../models/SachResponseModel";
 
 
-interface ResultAPI {
-    result : BookModel[];
+interface ResultAPI<T> {
+    result : T[];
     totalPage: number;
-    totalBook : number;
+    totalItems : number;
 }
 
 export default ResultAPI;
 
-async function getBook(url: string): Promise<ResultAPI> {
+async function getBook(url: string): Promise<ResultAPI<BookModel>> {
 
     // const result:BookModel[] = []; // Biến lưu giá trị trả về
 
@@ -25,22 +23,25 @@ async function getBook(url: string): Promise<ResultAPI> {
     // Lấy thông tin trang
     const totalPage: number = reponse.page.totalPages;
     const totalBook: number = reponse.page.totalElements;
-    return { result: responseData, totalPage: totalPage, totalBook: totalBook };
+    return { result: responseData, totalPage: totalPage, totalItems: totalBook };
 
 }
 
-export async function getTheLatestBook(): Promise<ResultAPI> {
+
+
+
+
+export async function getTheLatestBook(): Promise<ResultAPI<BookModel>> {
     // Lấy sản phẩm được bán ít nhất tháng trước ra làm flash sale hoặc là sản phẩm do admin set
     const url: string = `${baseUrl}/sach?sort=maSach,asc&page=0&size=6`;
     return getBook(url);
 }
-export async function getFlashSaleBook(): Promise<ResultAPI> {
+export async function getFlashSaleBook(): Promise<ResultAPI<BookModel>> {
     const url: string = `${baseUrl}/sach?sort=maSach,desc&page=0&size=6`;
     return getBook(url);
 }
 
-export async function getAllBooks(page: number): Promise<ResultAPI> {    // Hoạt động bất độ
-    console.log("page ở call api" + page);
+export async function getAllBooks(page: number): Promise<ResultAPI<BookModel>> {    // Hoạt động bất độ
 
     const url: string = `${baseUrl}/sach?sort=maSach,desc&size=12&page=${page}`;
 
@@ -48,7 +49,7 @@ export async function getAllBooks(page: number): Promise<ResultAPI> {    // Ho�
 }
 
 
-export async function getBookBySearchValue(value: string): Promise<ResultAPI> {
+export async function getBookBySearchValue(value: string): Promise<ResultAPI<BookModel>> {
 
     let url: string = `http://localhost:8080`;
 
@@ -77,3 +78,5 @@ export async function getBookById(bookId:number): Promise<BookModel | null> {
     }
 
 }
+
+

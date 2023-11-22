@@ -17,19 +17,30 @@ import java.util.List;
 public class SachResponse {
 
     private int maSach;
+
     private String tenSach;
-    private List<String> tenTheLoai;
+
+
     private String tenTacGia;
-    private String ISBN;
+
+    private String isbn;
+
     private String hinhAnhBase64;
+
     private Boolean hangChinhHang;
+
     private String nhaPhatHanh;
-    private String dichGia;
-    private String loaiBia;
+
     private int soTrang;
-    private int nhaXuatBan;
+
+    private String nhaXuatBan;
+
     private double giaNiemYet;
+
     private double giaBan;
+
     private int soLuong;
+
+    private String danhSachTheLoai;
 
 }
