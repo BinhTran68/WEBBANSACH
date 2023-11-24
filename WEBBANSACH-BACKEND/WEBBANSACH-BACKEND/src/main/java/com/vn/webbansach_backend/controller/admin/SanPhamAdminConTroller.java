@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,11 +48,18 @@ public class SanPhamAdminConTroller {
         }
         Pageable pageable;
         if (typeSort.equals("esc")) {
-            pageable =  PageRequest.of(pageNumber, pageSize);
+            pageable =  PageRequest.of(pageNumber, pageSize, Sort.by("maSach").ascending());
         }else  {
-            pageable =  PageRequest.of(pageNumber, pageSize);
+            pageable =  PageRequest.of(pageNumber, pageSize, Sort.by("maSach").descending());
         }
         return sachService.getAllSachResponse(pageable);
     }
+
+    @PostMapping("/del-sach-by-id/{id}")
+    public ResponseEntity<?> delSachById(@PathVariable Integer id) {
+        System.out.println("Id nhajan dudojc" +id);
+        return sachService.delSachById(id);
+    }
+
 
 }

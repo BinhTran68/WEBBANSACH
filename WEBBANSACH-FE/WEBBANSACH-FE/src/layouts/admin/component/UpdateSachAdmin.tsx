@@ -188,7 +188,9 @@ const UpdateSachAdmin: React.FC<{}> = ({}) => {
             body: JSON.stringify(sach) // gan sách vao body
         }).then(
             (res) => {
-                if (res.status == 201) {
+                if (res.status === 200) {
+                    alert("Cập nhật sách thành công");
+                }else if (res.status === 201) {
                     alert("Đã thêm sách thành công");
 
                     setSach({

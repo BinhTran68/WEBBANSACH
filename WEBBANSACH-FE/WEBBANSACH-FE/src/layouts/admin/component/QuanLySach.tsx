@@ -3,19 +3,31 @@ import {getSacSachResponseByPage} from "../../../api/admin/GetSachResponse";
 import * as url from "url";
 import {baseUrl} from "../../ultils/config";
 import SachResponseModel from "../../../models/SachResponseModel";
-import {Button, Menu, MenuItem} from "@mui/material";
+import {Button, Menu, MenuItem, PaginationItem} from "@mui/material";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import {Link} from "react-router-dom";
 
 const QuanLySach = () => {
 
     const [sachResponseList, setSachResponseList] = useState<SachResponseModel[]>([]);
 
-    const url: string = `${baseUrl}/api/admin/san-pham/get-book-response?pageNumber=1&pageSize=10&sortBy=s.maSach&typeSort=desc`
+    const [currentPage, setCurrentPage] = useState(1);
 
+    const handlePagination = (event: any, page: number) => {
+        setCurrentPage(page);
+    }
+
+
+    const url: string = `${baseUrl}/api/admin/san-pham/get-book-response?pageNumber=${currentPage-1}&pageSize=10&sortBy=maSach&typeSort=desc`
+
+    const  [totalPage, setTotalPage] = useState(0);
     useEffect(() => {
 
         getSacSachResponseByPage(url).then(
             (res) => {
+                console.log(res);
+                setTotalPage(res.totalPage)
                 return res.result;
 
             }
@@ -25,9 +37,17 @@ const QuanLySach = () => {
             }
         )
 
-    }, [])
+    }, [currentPage])
 
 
+
+
+    const  handleDelSachById =  (props:number) => {
+        // Call api xóa sách
+
+    }
+
+    // @ts-ignore
     return (
         < >
             <div>
@@ -55,12 +75,12 @@ const QuanLySach = () => {
 
                     {
                         sachResponseList.map((sachRes) => (
-                            <tr className={"text-center"}>
-                                <td scope={"col"}>{sachRes.maSach}</td>
-                                <td style={{wordWrap: "break-word"}}>{sachRes.tenSach}</td>
+                            <tr className={"text-center "}>
+                                <td scope={"col table-admin-column"}>{sachRes.maSach}</td>
+                                <td style={{wordWrap: "break-word"}} width={"480rem"} height={"65rem"}>{sachRes.tenSach}</td>
                                 <td scope={"col"}>{sachRes.tenTacGia}</td>
                                 <td scope={"col"}>
-                                    <img src={sachRes.hinhAnhBase64} width={"60rem"} alt=""/>
+                                    <img src={sachRes.hinhAnhBase64} height={"69rem"} width={"65rem"} alt=""/>
                                 </td>
                                 <td scope={"col"}>{sachRes.isbn}</td>
                                 <td scope={"col"}>{sachRes.nhaPhatHanh}</td>
@@ -74,14 +94,13 @@ const QuanLySach = () => {
                                         Action
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><Link  className="dropdown-item" to={`/admin/quan-ly-sach/edit?masach=${sachRes.maSach}`} >Chỉnh Sửa</Link></li>
-                                        <li><a className="dropdown-item" href="#">Thêm sửa ảnh</a></li>
-                                        <li><a className="dropdown-item" href="#">Xóa</a></li>
-
+                                        <li><Link  className="dropdown-item" to={`/admin/quan-ly-sach/edit/${sachRes.maSach}`} >Chỉnh Sửa</Link></li>
+                                        <li><Link className="dropdown-item" to={`/admin/quan-ly-sach/edit-image/${sachRes.maSach}`}>Thêm sửa ảnh</Link></li>
+                                        <li><a className="dropdown-item" >Xóa</a></li>
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
-                                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a className="dropdown-item" onClick={() => handleDelSachById(parseInt(sachRes.maSach))} >Something else here</a></li>
                                     </ul>
 
 
@@ -95,6 +114,19 @@ const QuanLySach = () => {
 
                     </tbody>
                 </table>
+
+                <div className={"d-flex justify-content-center"}>
+                    <Stack spacing={3}>
+                        <Pagination color={"primary"} page={currentPage} onChange={handlePagination}  count={totalPage} size={"large"} showFirstButton showLastButton />
+                    </Stack>
+
+                    {/*<Stack spacing={3}>*/}
+                    {/*    <Pagination color={"primary"} count={10} size={"large"} showFirstButton showLastButton renderItem={(item) => (*/}
+                    {/*        <PaginationItem components={{ first: (props) => <button className={""} {...props}>Đầu tiên</button>, last: (props) => <button {...props}>Cuối cùng</button>, }} {...item} /> )} />*/}
+                    {/*</Stack>*/}
+
+                </div>
+
 
             </div>
 

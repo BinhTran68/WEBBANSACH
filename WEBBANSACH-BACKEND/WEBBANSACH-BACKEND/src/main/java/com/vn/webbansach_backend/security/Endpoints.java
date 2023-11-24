@@ -23,6 +23,8 @@ public class Endpoints {
             "/api/nha-phat-hanh/get-by-masach"
 
 
+
+
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
@@ -40,7 +42,12 @@ public class Endpoints {
     };
 
     public static final String[] ADMIN_POST_ENDPOINTS = {
-            "/api/admin/san-pham/**"
+            "/api/admin/san-pham/**",
+            "/api/admin/san-pham/del-sach-by-id/**"
+    };
+
+    public static final String[] ADMIN_DELETE_ENDPOINTS = {
+            "/api/admin/san-pham/del-sach-by-id/**"
     };
 
 }

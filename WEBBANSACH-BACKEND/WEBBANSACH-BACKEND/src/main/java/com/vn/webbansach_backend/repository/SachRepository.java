@@ -60,12 +60,13 @@ public interface SachRepository extends JpaRepository<Sach, Integer> {
 //    Page<SachResponse> getPageSachResponse(Pageable pageable);
 
 
-    @Query(value = " SELECT new com.vn.webbansach_backend.response.SachResponse(s.maSach, s.tenSach, s.tenTacGia," +
+    @Query(value = " SELECT DISTINCT  new com.vn.webbansach_backend.response.SachResponse(s.maSach, s.tenSach, s.tenTacGia," +
             " s.ISBN, ha.duLieuAnh , s.hangChinhHang , nph.tenNhaPhatHanh , s.soTrang, nxb.tenNhaXuatBan ," +
-            " s.giaNiemYet, s.giaBan, s.soLuong, tl.tenTheLoai)" +
-            " FROM Sach s" + " LEFT JOIN s.danhSachTheLoai tl" + " LEFT JOIN s.danhSachHinhAnh ha" + " LEFT JOIN s.danhSachNhaPhatHanh nph" +
-            " LEFT JOIN s.nhaXuatBanSach nxb" + " WHERE ha.isIcon = true ", nativeQuery = false)
+            " s.giaNiemYet, s.giaBan, s.soLuong)" +
+            " FROM Sach s left JOIN s.danhSachHinhAnh ha" + " left JOIN s.danhSachNhaPhatHanh nph " +
+            " LEFT JOIN s.nhaXuatBanSach nxb" + " WHERE ha.isIcon = true or ha.duLieuAnh is null " ,nativeQuery = false)
     Page<SachResponse> getPageSachResponse(Pageable pageable);
+
 
 
 }

@@ -41,6 +41,4 @@ public class SachResponse {
 
     private int soLuong;
 
-    private String danhSachTheLoai;
-
 }

@@ -6,7 +6,6 @@ import com.vn.webbansach_backend.entity.NhaXuatBan;
 import com.vn.webbansach_backend.entity.Sach;
 import com.vn.webbansach_backend.entity.TheLoai;
 import com.vn.webbansach_backend.exception.NhaPhatHanhNotFoundException;
-import com.vn.webbansach_backend.exception.TheLoaiNotFoundException;
 import com.vn.webbansach_backend.repository.HinhAnhRepository;
 import com.vn.webbansach_backend.repository.NhaPhatHanhRepository;
 import com.vn.webbansach_backend.repository.NhaXuatBanRepository;
@@ -21,13 +20,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SachServiceImpl implements SachService {
@@ -50,9 +48,16 @@ public class SachServiceImpl implements SachService {
 
     @Override
     public ResponseEntity<?> saveBookByRequest(SachRequest sachRequest) {
-        System.out.println(sachRequest.getMaSach());
-        Sach sach = new Sach();
-        sach.setMaSach(sach.getMaSach());
+
+        System.out.println(sachRequest.toString());
+        boolean sachExit = sachRepository.existsByMaSach(sachRequest.getMaSach());
+        Sach sach;
+        if (!sachExit) {
+            sach  = new Sach();
+        }else {
+            sach = sachRepository.findById(sachRequest.getMaSach()).orElse(null);
+        }
+        sach.setMaSach(sachRequest.getMaSach());
         sach.setTenSach(sachRequest.getTenSach());
         sach.setTenTacGia(sach.getTenTacGia());
         sach.setISBN(sachRequest.getISBN());
@@ -117,7 +122,19 @@ public class SachServiceImpl implements SachService {
     @Override
     public ResponseEntity<?> getAllSachResponse(Pageable pageable) {
         Page<SachResponse> sachPage = sachRepository.getPageSachResponse(pageable);
+        System.out.println(sachPage.getTotalElements());
         return ResponseEntity.status(200).body(sachPage);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<Object> delSachById(Integer id) {
+        Sach sach = sachRepository.findById(id).orElse(null);
+        if (sach == null) {
+            return ResponseEntity.notFound().build();
+        }
+        sachRepository.delete(sach);
+        return ResponseEntity.status(204).body(new Message("Xóa thành công"));
     }
 
 }
