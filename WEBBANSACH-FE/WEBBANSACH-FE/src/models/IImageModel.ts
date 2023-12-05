@@ -2,9 +2,9 @@ interface IImageModel {
     maHinhAnh: number;
     tenHinhAnh?: string;
     icon?: boolean;
-    duongDan?: string;
+    link?: string;
     duLieuAnh?: string;
-
+    file?: File;
 }
 
 export default IImageModel;

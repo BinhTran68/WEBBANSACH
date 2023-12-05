@@ -9,9 +9,6 @@ export  async function getSacSachResponseByPage(url: string): Promise<ResultAPI<
 
     const totalPage: number = reponse.totalPages;
     const totalElements: number = reponse.totalElements;
-    // console.log(reponse.content);
-
-
     return { result: reponse.content , totalPage: totalPage, totalItems: totalElements };
 
 }

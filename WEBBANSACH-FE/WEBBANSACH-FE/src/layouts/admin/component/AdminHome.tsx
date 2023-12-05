@@ -9,26 +9,10 @@ import "../adminComponent.scss"
 import {Routes, Route, Outlet, useNavigate, Link} from 'react-router-dom';
 
 
-const Home = () => {
-    return <h1>Home</h1>;
-};
-
-const LineChart = () => {
-    return <h1>Line Chart</h1>;
-};
-
-const BarChart = () => {
-    return <h1>Bar Chart</h1>;
-};
-
 const AdminHome = () => {
-    // Use the useNavigate hook to get the navigate function
-    const navigate = useNavigate();
-
     return (
-        // Wrap the SideNav and main with a Routes component
         <>
-            <div className={"container-fluid"}>
+            <div className={"container-fluid position-relative"}>
                 <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
                         <Link className="navbar-brand" to={"/admin"}>FAHASHA ADMIN</Link>
@@ -48,7 +32,36 @@ const AdminHome = () => {
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        Dropdown
+                                        Quản Lý Sách
+                                    </a>
+                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}  >Danh Sách Sách</Link></li>
+                                        <li><Link className="dropdown-item" to={"/admin/add-sach"} >Thêm Sách Sách</Link></li>
+                                        <li>
+                                            <hr className="dropdown-divider"/>
+                                        </li>
+                                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        Quản Nhà Xuất Bản
+                                    </a>
+                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}  >Danh Sách Sách</Link></li>
+                                        <li><Link className="dropdown-item" to={"/admin/add-sach"} >Thêm Sách Sách</Link></li>
+                                        <li>
+                                            <hr className="dropdown-divider"/>
+                                        </li>
+                                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        Quản Lý Thể Loại
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}  >Danh Sách Sách</Link></li>
@@ -73,9 +86,19 @@ const AdminHome = () => {
                     </div>
                 </nav>
             </div>
-            <main className={"mx-5  "}>
+            <main className={"mx-5 px-5"}>
                 <Outlet/>
             </main>
+            <footer className="py-3 my-4">
+                <ul className="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Home</a></li>
+                    <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Features</a></li>
+                    <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Pricing</a></li>
+                    <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">FAQs</a></li>
+                    <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">About</a></li>
+                </ul>
+                <p className="text-center text-muted">© 2022 Company, Inc</p>
+            </footer>
 
         </>
     );

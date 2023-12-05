@@ -9,7 +9,7 @@ interface SachResponseModel {
 
     isbn: string;
 
-    hinhAnhBase64: string;
+    link: string;
 
     hangChinhHang: string;
 

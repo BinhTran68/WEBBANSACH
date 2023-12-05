@@ -19,6 +19,7 @@ import QuanLySach from "./layouts/admin/component/QuanLySach";
 import UpdateSachAdmin from "./layouts/admin/component/UpdateSachAdmin";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UpdateImageSach from './layouts/admin/component/UpdateImageSach';
 
 
 function App() {
@@ -40,11 +41,13 @@ function App() {
               <Route path='/test' element={<Test/>}/>
               <Route path='/kich-hoat/:email/:maKichHoat' element={<KichHoatTaiKhoan/>}/>
               <Route path="*" element={<NotFound404 />} />
+              <Route path="/404" element={<NotFound404 />} />
             </Route>
             <Route path={"/admin"} element={<AdminHome/>} >
               <Route path={"/admin/add-sach"} element={<ThemSachAdmin/>}/>
               <Route path={"/admin/quan-ly-sach"} element={<QuanLySach/>}/>
               <Route path={"/admin/quan-ly-sach/edit/:maSach"} element={<UpdateSachAdmin/>}/>
+              <Route path={"/admin/quan-ly-sach/edit-image/:maSach"} element={<UpdateImageSach/>}/>
             </Route>
 
           </Routes>

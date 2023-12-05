@@ -12,6 +12,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
 @Table(name = "hinh_anh")
@@ -31,13 +33,8 @@ public class HinhAnh {
     @Column(name = "duong_dan")
     private String link;
 
-    @Column(name = "du_lieu_anh", columnDefinition = "LONGTEXT")
-    @Lob
-    private String duLieuAnh;
+    private Date ngayCapNhat;
 
-    // 1 quyển sách với nhiều hình ảnh
-    // Khi xóa sách thì xóa luôn hình ảnh
-    // Khi xóa hình ảnh thì không xóa sách
 
     @ManyToOne(
             cascade = {
@@ -45,6 +42,6 @@ public class HinhAnh {
                     CascadeType.REFRESH, CascadeType.MERGE
             }
     )
-    @JoinColumn(name = "ma_sach", nullable = false) // Bắt buộc phải xác định ảnh này thuộc sách này
+    @JoinColumn(name = "ma_sach", nullable = true)
     private Sach sach;
 }

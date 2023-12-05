@@ -20,18 +20,22 @@ function HomePage() {
    }
 
    return (
-      <div className='container'>
+      <div className='container p-0'>
          <Baner />
          <Carousel />
-         <div className='head-featured mt-5' >
-            <h5>Sách mới nhất</h5>
+
+         <div className={"border  mt-5"}>
+             <div className='head-featured ' >
+                 <h5>Sách mới nhất</h5>
+             </div>
+             <FeaturedProducts fetchBooks={getTheLatestBook} />
          </div>
-         <FeaturedProducts fetchBooks={getTheLatestBook} />
-         <div className='head-featured mt-5 bg-warning' >
+          <div className={"border  mt-5"}>
+         <div className='head-featured  bg-warning' >
             <h5>Flash sale</h5>
          </div>
          <FeaturedProducts fetchBooks={getFlashSaleBook} />
-
+          </div>
       </div>
    )
 }

@@ -20,7 +20,8 @@ public class Endpoints {
             "/api/the-loai/get-theloai-by-id-sach",
             "/api/nha-xuat-ban/get-by-masach",
             "/api/admin/san-pham/get-book-response/**",
-            "/api/nha-phat-hanh/get-by-masach"
+            "/api/nha-phat-hanh/get-by-masach",
+            "/api/client/get-info-sach"
 
 
 
@@ -30,6 +31,7 @@ public class Endpoints {
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/api/account/register",
             "/api/account/login",
+            "/api/admin/hinh-anh/upload"
 
 
 
@@ -43,11 +45,18 @@ public class Endpoints {
 
     public static final String[] ADMIN_POST_ENDPOINTS = {
             "/api/admin/san-pham/**",
-            "/api/admin/san-pham/del-sach-by-id/**"
+            "/api/admin/san-pham/del-sach-by-id/**",
+            "/api/admin/hinh-anh/update-hinh-anh",
+
+    };
+
+    public static final String[] ADMIN_PUT_ENDPOINTS = {
+            "/api/admin/san-pham/update-sach"
     };
 
     public static final String[] ADMIN_DELETE_ENDPOINTS = {
-            "/api/admin/san-pham/del-sach-by-id/**"
+            "/api/admin/san-pham/del-sach-by-id/**",
+            "/api/admin/hinh-anh/del-by-id"
     };
 
 }

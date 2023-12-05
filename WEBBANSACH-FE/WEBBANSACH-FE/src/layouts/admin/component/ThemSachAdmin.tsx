@@ -2,7 +2,6 @@ import React, {FormEvent, useEffect, useState} from "react";
 import {baseUrl} from "../../ultils/config";
 import {getAllTheLoaiSach} from "../../../api/TheLoai";
 import TheLoaiModel from "../../../models/TheLoaiModel";
-
 import NhaXuatBanModel from "../../../models/NhaXuatBanModel";
 import {getAllNhaXuatBan} from "../../../api/NhaXuatBanApi";
 import {getAllNhaPhatHanh} from "../../../api/NhaPhatHanhApi";
@@ -14,14 +13,21 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-
+import FileService from "../../../api/admin/AxiosApiService";
+import {toast, ToastContainer} from "react-toastify";
 
 
 const ThemSachAdmin: React.FC<{}> = () => {
 
     const [danhSachTheLoai, setDanhSachTheLoai] = useState<TheLoaiModel[]>([]);
+
     const [danhSachNhaXuatBan, setDanhSachNhaXuatBan] = useState<NhaXuatBanModel[]>([]);
+
     const [danhSachNhaPhatHanh, setDanhSachNhaPhatHanh] = useState<INhaPhatHanhModel[]>([])
+
+    const [srcImage, setSrcImage] = useState("");
+
+    const [bookImage, setBookImage] = useState<File | Blob | null>(null);
 
 
     useEffect(() => {
@@ -32,7 +38,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
             }
         ).catch(
             (error) => {
-                alert("Có lỗi xảy ra")
+               toast.error("Không thể lấy được danh sách thể loại");
             }
         )
 
@@ -46,7 +52,8 @@ const ThemSachAdmin: React.FC<{}> = () => {
             }
         ).catch(
             (error) => {
-                alert("Có lỗi xảy ra")
+                toast.error("Không thể lấy được danh sách nhà xuất bản");
+                console.log(error);
             }
         )
 
@@ -59,7 +66,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
             }
         ).catch(
             (error) => {
-                alert("Có lỗi xảy ra")
+                toast.error("Không thể lấy được danh sách nhà phát hành");
             }
         )
 
@@ -73,7 +80,6 @@ const ThemSachAdmin: React.FC<{}> = () => {
         tenTacGia: ' ',
         ISBN: ' ',
         moTa: '',
-        hinhAnhBase64: '',
         hangChinhHang: true,
         nhaPhatHanh: '',
         dichGia: '',
@@ -86,9 +92,6 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
     })
 
-    // const onChangeSelectTheLoai = (event:React.FormEvent<HTMLSelectElement>) => {
-    //     setSach({...sach, maTheLoai: parseInt(event.currentTarget.value)})
-    // }
 
     const onChangeSelectNhaXuatBan = (event: React.FormEvent<HTMLSelectElement>) => {
         setSach({...sach, nhaXuatBan: parseInt(event.currentTarget.value)})
@@ -100,23 +103,20 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
+        const url = `${baseUrl}/api/admin/san-pham/add-sach`;
+
+        const formData = new FormData();
+
+        // @ts-ignore
+        formData.append("sachRequest", new Blob([JSON.stringify(sach)], {type: "application/json"}));
+        // @ts-ignore
+        formData.append("bookImg", bookImage);
 
 
-        const token = localStorage.getItem('token'); //N lấy token trên localStorage
-        const url = `${baseUrl}/api/admin/san-pham/add-sach`
-        fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-
-            body: JSON.stringify(sach) // gan sách vao body
-        }).then(
+        FileService.uploadImage(url, formData).then(
             (res) => {
                 if (res.status == 201) {
-                    alert("Đã thêm sách thành công");
-
+                    toast.success("Thêm sách thành công");
                     setSach({
                         maSach: 0,
                         tenSach: ' ',
@@ -124,7 +124,6 @@ const ThemSachAdmin: React.FC<{}> = () => {
                         tenTacGia: ' ',
                         ISBN: ' ',
                         moTa: '',
-                        hinhAnhBase64: '',
                         hangChinhHang: true,
                         nhaPhatHanh: '',
                         dichGia: '',
@@ -135,20 +134,22 @@ const ThemSachAdmin: React.FC<{}> = () => {
                         giaBan: '',
                         soLuong: ''
                     })
-                    // Sau khi theem thanh công set quyển sách về rỗng
+
                 } else if (res.status == 401) {
-                    alert("Bạn không có quyền đăng nhập")
+
+                    toast.error("Phiên đăng nhập đã hết hạn");
                 } else {
-                    alert("gặp lỗi trong quá trình thêm sách")
+                    toast.error("Có lỗi xảy ra trong quá trình đăng nhập");
                 }
             }
-        ).catch((e) => {
-            alert("Gặp lỗi trong quá trình đăng nhập")
-        })
+        ).catch(
+            (e) => alert(e)
+        )
+
     }
 
-    const [personName, setPersonName] = React.useState<string[]>([]);
-    // Selected component
+    // const [personName, setPersonName] = React.useState<string[]>([]);
+    // // Selected component
     const MenuProps = {
         PaperProps: {
             style: {
@@ -178,12 +179,26 @@ const ThemSachAdmin: React.FC<{}> = () => {
             }
         }
 
+
         // @ts-ignore
         setSach({...sach, maTheLoai: maTheLoai})
         console.log(maTheLoai);
 
 
     };
+
+    const handleFileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // @ts-ignore
+        const value = event.target.files[0];
+        if (value) {
+
+            const url = URL.createObjectURL(value);
+
+            setSrcImage(url);
+            setBookImage(value);
+        }
+
+    }
 
 
     // @ts-ignore
@@ -248,7 +263,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
                 <div className="mb-3">
                     <label className="form-label" htmlFor="">Nhà xuất bản</label>
-                    <select className="form-select" onChange={event => onChangeSelectNhaXuatBan(event)}>
+                    <select className="form-select" value={sach.nhaXuatBan} onChange={event => onChangeSelectNhaXuatBan(event)}>
                         <option value={0}>Chọn Nhà xuất bản</option>
                         {
                             danhSachNhaXuatBan.map((nxb) => (
@@ -262,7 +277,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
                 <div className="mb-3">
                     <label className="form-label" htmlFor="">Nhà phát hành</label>
-                    <select className="form-select" onChange={event => onChangeNhaPhatHanh(event)}>
+                    <select className="form-select" value={sach.nhaPhatHanh} onChange={event => onChangeNhaPhatHanh(event)}>
                         <option value={0}>Chọn Nhà Phát Hành</option>
                         {
                             danhSachNhaPhatHanh.map((nph) => (
@@ -313,15 +328,11 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
                 <div className="mb-3">
                     <div>
-                        <label className="form-label" htmlFor="exampleTextarea">Hình ảnh (Base64)</label>
-                        <textarea
-                            className="form-control"
-                            value={sach.hinhAnhBase64}
-                            onChange={e => setSach({...sach, hinhAnhBase64: e.target.value})}
-                        />
+                        <label className="form-label" htmlFor="exampleTextarea">Chọn ảnh đại diện cho sách</label>
+                        <input onChange={handleFileImage} className="form-control" type="file" id=""/>
                     </div>
                     <div className={""}>
-                        <img style={{height: "25rem"}}  src={sach.hinhAnhBase64} alt=""/>
+                        <img style={{height: "25rem"}} src={srcImage} alt=""/>
 
                     </div>
 
@@ -419,6 +430,21 @@ const ThemSachAdmin: React.FC<{}> = () => {
                 </div>
 
             </form>
+
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
 
         </div>
     );

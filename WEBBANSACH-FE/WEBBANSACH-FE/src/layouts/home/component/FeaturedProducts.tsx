@@ -54,7 +54,7 @@ const FeaturedProducts: React.FC<Props> = ({ fetchBooks }) => {
         )
     }
     return (
-        <div className={'border container'}>
+        <div className={' container'}>
             <div className={"row mt-4"}>
 
                 {

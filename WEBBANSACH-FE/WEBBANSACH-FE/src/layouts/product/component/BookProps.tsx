@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import DangTaiDuLieuComponent from '../../ultils/DangTaiDuLieuComponent';
 import renderRaiting from '../../ultils/renderRaiting';
 import {nlNL} from "@mui/material/locale";
+import { log } from 'console';
+import usePercentDiscount from "../../ultils/config";
 
 interface BookPropsInterface {
 
@@ -44,7 +46,7 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
     useEffect(() => {
 
         // @ts-ignore
-        let  percentDiscount = (props.book.giaNiemYet - props.book.giaBan)/props.book.giaNiemYet*100;
+        let  percentDiscount = (props.book.giaBan - props.book.giaNiemYet)/props.book.giaNiemYet*100;
 
 
         if (isNaN(percentDiscount) || percentDiscount == undefined ) {
@@ -80,7 +82,9 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
 
     imageList.forEach(image => {
         if (image.icon == true) {
-            bookAvata = image.duLieuAnh;
+       
+            
+            bookAvata = image.link;
         }
     })
 

@@ -21,10 +21,10 @@ const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
 
     const [danhSachAnh, setDanhSachAnh] = useState<IImageModel[]>([]);
 
-    const [hinhAnhDangChon, setHinhAnhDangChon] = useState<IImageModel | null >(null);
+    const [hinhAnhDangChon, setHinhAnhDangChon] = useState<IImageModel | null>(null);
 
     const [hinhAnhTruocDo, setHinhAnhTruocDo] = useState<IImageModel | null>(null);
-    // gọi hàm thay đổi hình ảnh đang chọn
+
     const chonAnh = (image: IImageModel) => {
         setHinhAnhDangChon(image);
         setHinhAnhTruocDo(image);
@@ -53,7 +53,7 @@ const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
             }
         ).catch(
             error => {
-                setBaoLoi(baoLoi);                
+                setBaoLoi(baoLoi);
             }
         )
 
@@ -61,9 +61,9 @@ const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
 
     if (dangTaiDuLieu) {
         return (
-           <>
-            <DangTaiDuLieuComponent/>
-           </>
+            <>
+                <DangTaiDuLieuComponent />
+            </>
         );
     }
 
@@ -77,8 +77,8 @@ const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
 
     return (
         <div className='row'>
-            <div  className=' h-100 overflow-hidden object-fit-contain'>
-                {(hinhAnhDangChon) && <img className='mw-100' src={hinhAnhDangChon?.duLieuAnh} />}
+            <div className=' h-100 overflow-hidden object-fit-contain'>
+                {(hinhAnhDangChon) && <img className='mw-100' width={"300rem"} height={"340rem"} src={hinhAnhDangChon?.link} />}
             </div>
             <div>
                 <div className='d-flex align-items-center justify-content-sm-start mt-3 ' >
@@ -86,7 +86,7 @@ const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
                     {
                         danhSachAnh.map((hinhAnh, index) => (
                             <div className={` m-1 px-1   ${selectedImage === hinhAnh ? "border border-2 p-1 border-primary" : " "}`} key={index} onMouseOver={() => hoverImage(hinhAnh)} onMouseOut={() => hinhAnhTruocDo == null ? chonAnh(hinhAnh) : chonAnh(hinhAnhTruocDo)} onClick={() => chonAnh(hinhAnh)} >
-                                <img src={hinhAnh.duLieuAnh} alt="" style={{ width: '50px' }} />
+                                <img src={hinhAnh.link} alt="" height={"55rem"} style={{ width: '3rem' }} />
                             </div>
                         ))
                     }

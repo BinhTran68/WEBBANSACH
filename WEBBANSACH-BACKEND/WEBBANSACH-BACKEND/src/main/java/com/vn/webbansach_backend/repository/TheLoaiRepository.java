@@ -20,5 +20,8 @@ public interface TheLoaiRepository extends JpaRepository<TheLoai, Integer> {
             " from TheLoai tl Join tl.danhSachQuyenSach s where  s.maSach = :maSach ")
     List<TheLoaiResponse> getAllTheLoaiResponeseByMaSach(@Param("maSach") Integer maSach);
 
+    @Query(value = "SELECT tl.ten_the_loai FROM sach s JOIN sach_theloai stl ON s.ma_sach = stl.ma_sach JOIN the_loai tl ON stl.ma_the_loai = tl.ma_the_loai WHERE s.ma_sach = :maSach", nativeQuery = true)
+    List<String> findNameTheLoaiByIdSach(@Param("maSach") Integer maSach);
+
 
 }

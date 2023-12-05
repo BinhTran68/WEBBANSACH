@@ -1,11 +1,13 @@
 package com.vn.webbansach_backend.repository;
 
 import com.vn.webbansach_backend.entity.Sach;
+import com.vn.webbansach_backend.response.BookInfoResponse;
 import com.vn.webbansach_backend.response.SachResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -38,10 +40,6 @@ public interface SachRepository extends JpaRepository<Sach, Integer> {
     Page<Sach> findByGiaBanIsBetweenAndDanhSachTheLoaiIn(@RequestParam("giaMin") double giaMin, @RequestParam("giaMax") double giaMax, @RequestParam("theLoaiIds") List<Integer> theLoaiIds, Pageable pageable);
 
 
-//    @Query(value = "SELECT * FROM sach s JOIN the_loai_sach tls ON s.ma_sach = tls.ma_sach JOIN the_loai tl ON tls.ma_the_loai = tl.ma_the_loai WHERE s.gia_ban BETWEEN :giaMin AND :giaMax AND tl.ma_the_loai IN :theLoaiIds LIMIT :size OFFSET :offset",
-//            countQuery = "SELECT count(*) FROM sach s JOIN the_loai_sach tls ON s.ma_sach = tls.ma_sach JOIN the_loai tl ON tls.ma_the_loai = tl.ma_the_loai WHERE s.gia_ban BETWEEN :giaMin AND :giaMax AND tl.ma_the_loai IN :theLoaiIds", nativeQuery = true)
-//    Page<Sach> findByGiaBanIsBetweenAndDanhSachTheLoaiIn(@RequestParam ("giaMin") double giaMin, @RequestParam("giaMax") double giaMax , @RequestParam ("theLoaiIds") List<Integer> theLoaiIds, @RequestParam("page") int page, @RequestParam("size") int size);
-//
 
     boolean existsByMaSach(Integer maSach);
 
@@ -61,12 +59,16 @@ public interface SachRepository extends JpaRepository<Sach, Integer> {
 
 
     @Query(value = " SELECT DISTINCT  new com.vn.webbansach_backend.response.SachResponse(s.maSach, s.tenSach, s.tenTacGia," +
-            " s.ISBN, ha.duLieuAnh , s.hangChinhHang , nph.tenNhaPhatHanh , s.soTrang, nxb.tenNhaXuatBan ," +
+            " s.ISBN, ha.link , s.hangChinhHang , nph.tenNhaPhatHanh , s.soTrang, nxb.tenNhaXuatBan ," +
             " s.giaNiemYet, s.giaBan, s.soLuong)" +
             " FROM Sach s left JOIN s.danhSachHinhAnh ha" + " left JOIN s.danhSachNhaPhatHanh nph " +
-            " LEFT JOIN s.nhaXuatBanSach nxb" + " WHERE ha.isIcon = true or ha.duLieuAnh is null " ,nativeQuery = false)
+            " LEFT JOIN s.nhaXuatBanSach nxb" + " WHERE ha.isIcon = true or ha.link is null " ,nativeQuery = false)
     Page<SachResponse> getPageSachResponse(Pageable pageable);
 
-
+    @Query(" select  new com.vn.webbansach_backend.response.BookInfoResponse(s.maSach, s.tenSach, s.tenTacGia, s.loaiBia, s.moTa ,s.ISBN, s.hangChinhHang, nph.tenNhaPhatHanh, s.soTrang, nxb.tenNhaXuatBan, " +
+            " s.giaNiemYet, s.giaBan, s.soLuong) " +
+            " FROM Sach s left join s.danhSachNhaPhatHanh nph left join s.nhaXuatBanSach nxb where s.maSach = :maSach")
+    BookInfoResponse getInfoBookResponseByMaSach(@Param("maSach") Integer maSach);
+    
 
 }

@@ -1,14 +1,17 @@
 import BookModel from "../models/BookModel";
-import { getRequest } from "./Request";
-import { baseUrl } from "../layouts/ultils/config";
+import {getRequest} from "./Request";
+import {baseUrl} from "../layouts/ultils/config";
 import SachResponseModel from "../models/SachResponseModel";
 
 
 interface ResultAPI<T> {
-    result : T[];
+    result: T[];
     totalPage: number;
-    totalItems : number;
+    totalItems: number;
 }
+
+
+
 
 export default ResultAPI;
 
@@ -23,12 +26,9 @@ async function getBook(url: string): Promise<ResultAPI<BookModel>> {
     // Lấy thông tin trang
     const totalPage: number = reponse.page.totalPages;
     const totalBook: number = reponse.page.totalElements;
-    return { result: responseData, totalPage: totalPage, totalItems: totalBook };
+    return {result: responseData, totalPage: totalPage, totalItems: totalBook};
 
 }
-
-
-
 
 
 export async function getTheLatestBook(): Promise<ResultAPI<BookModel>> {
@@ -36,6 +36,7 @@ export async function getTheLatestBook(): Promise<ResultAPI<BookModel>> {
     const url: string = `${baseUrl}/sach?sort=maSach,asc&page=0&size=6`;
     return getBook(url);
 }
+
 export async function getFlashSaleBook(): Promise<ResultAPI<BookModel>> {
     const url: string = `${baseUrl}/sach?sort=maSach,desc&page=0&size=6`;
     return getBook(url);
@@ -56,27 +57,41 @@ export async function getBookBySearchValue(value: string): Promise<ResultAPI<Boo
     if (value !== '') {
         url = `${baseUrl}/sach/search/findByTenSachContaining?sort=maSach,desc&size=8&page=0&tenSach=${value}`;
         console.log("Call api");
-        
+
     }
 
     return getBook(url);
 }
 
-export async function getBookById(bookId:number): Promise<BookModel | null> {
+export async function getBookById(bookId: number|string): Promise<BookModel | null> {
     const url = `${baseUrl}/sach/${bookId}`;
 
-    let result: BookModel;
+    // let result: BookModel;
 
     try {
         const response = await getRequest(url);
-    
+
         return response;
 
     } catch (error) {
-      
         throw new Error('Không thể lấy được sách')
     }
 
 }
 
+const token = localStorage.getItem('token');
+
+export async function delSachById(maSach: number) {
+    const url = `${baseUrl}/api/admin/san-pham/del-sach-by-id/${maSach}`;
+    console.log(url)
+    const res = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+
+        }
+    })
+    return res;
+}
 

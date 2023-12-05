@@ -1,18 +1,13 @@
 import React from 'react';
-
-
-
-
 import "../layouts/admin/adminComponent.scss"
 import "./admin-layout.css"
 
+
+
 const AdminLayout = () => {
-
-
 
     return (
         <>
-
             <header>
                 <nav id="sidebarMenu" className="collapse d-lg-block sidebar collapse bg-white">
                     <div className="position-sticky">
@@ -225,22 +220,11 @@ const AdminLayout = () => {
 
             </header>
 
-
-
             <main >
                 <div className="container pt-4"></div>
             </main>
 
 
-            {/*<div classNameName={"row"}>*/}
-            {/*    /!*<div classNameName={"col-md-2 nav-left"}>*!/*/}
-            {/*    /!*    <NavLeft/>*!/*/}
-            {/*    /!*</div>*!/*/}
-            {/*    /!*<div classNameName={"col-md-10 content"}>*!/*/}
-            {/*    /!*    <Outlet/>*!/*/}
-            {/*    /!*</div>*!/*/}
-            {/*</div>*/}
-            {/*<FooterAdmin/>*/}
 
   </>
     );

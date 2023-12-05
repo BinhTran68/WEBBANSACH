@@ -25,7 +25,7 @@ public class SachResponse {
 
     private String isbn;
 
-    private String hinhAnhBase64;
+    private String link;
 
     private Boolean hangChinhHang;
 

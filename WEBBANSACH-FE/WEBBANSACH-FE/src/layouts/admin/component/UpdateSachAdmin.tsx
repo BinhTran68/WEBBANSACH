@@ -47,9 +47,7 @@ const UpdateSachAdmin: React.FC<{}> = ({}) => {
     useEffect(() => {
         getNhaXuatBanByMaSach(maSach).then(
             (res) => {
-
                 setSach((prevSach) => ({...prevSach, nhaXuatBan: res.maNhaXuatBan}))
-
             }
         ).catch(
             (error) => {
@@ -57,7 +55,7 @@ const UpdateSachAdmin: React.FC<{}> = ({}) => {
             }
         )
 
-    }, [])
+    }, [maSach])
 
 
     useEffect(() => {
@@ -97,7 +95,7 @@ const UpdateSachAdmin: React.FC<{}> = ({}) => {
             }
         )
 
-    }, [])
+    }, [maSach])
 
 
     useEffect(() => {
@@ -173,13 +171,13 @@ const UpdateSachAdmin: React.FC<{}> = ({}) => {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-
         console.log(sach);
 
+
         const token = localStorage.getItem('token'); //N lấy token trên localStorage
-        const url = `${baseUrl}/api/admin/san-pham/add-sach`
+        const url = `${baseUrl}/api/admin/san-pham/update-sach`
         fetch(url, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`

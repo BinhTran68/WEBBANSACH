@@ -9,17 +9,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 
 
 @RestController
@@ -30,10 +35,21 @@ public class SanPhamAdminConTroller {
     @Autowired
     private SachService sachService;
 
-    @PostMapping("/add-sach")
-    public ResponseEntity<?> addBookByBookRequest(@RequestBody SachRequest sachRequest){
+    @PostMapping(  value = "/add-sach",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> addBookByBookRequest(@RequestPart("sachRequest") SachRequest sachRequest,
+                                                  @RequestParam("bookImg")MultipartFile multipartFile) throws IOException {
+        System.out.println(sachRequest.toString());
+        System.out.println(multipartFile.getSize());
+        System.out.println(multipartFile.getOriginalFilename());
+
+        return sachService.saveBookByRequest(sachRequest, multipartFile);
+
+    }
+
+    @PutMapping(value = "/update-sach")
+    public ResponseEntity<?> updateSachById(@RequestBody SachRequest sachRequest) throws IOException {
         System.out.println(sachRequest);
-        return sachService.saveBookByRequest(sachRequest);
+        return sachService.saveBookByRequest(sachRequest,null);
     }
 
     @GetMapping("/get-book-response")
@@ -55,9 +71,8 @@ public class SanPhamAdminConTroller {
         return sachService.getAllSachResponse(pageable);
     }
 
-    @PostMapping("/del-sach-by-id/{id}")
+    @DeleteMapping("/del-sach-by-id/{id}")
     public ResponseEntity<?> delSachById(@PathVariable Integer id) {
-        System.out.println("Id nhajan dudojc" +id);
         return sachService.delSachById(id);
     }
 
