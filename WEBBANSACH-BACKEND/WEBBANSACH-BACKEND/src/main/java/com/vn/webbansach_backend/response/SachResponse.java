@@ -12,7 +12,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class SachResponse {
 
@@ -40,5 +39,21 @@ public class SachResponse {
     private double giaBan;
 
     private int soLuong;
+
+    public SachResponse(int maSach, String tenSach, String tenTacGia, String isbn, String link, Boolean hangChinhHang, String nhaPhatHanh, int soTrang, String nhaXuatBan, double giaNiemYet, double giaBan, int soLuong) {
+        this.maSach = maSach;
+        this.tenSach = tenSach;
+        this.tenTacGia = tenTacGia;
+        this.isbn = isbn;
+        this.link = link;
+        this.hangChinhHang = hangChinhHang;
+        this.nhaPhatHanh = nhaPhatHanh;
+        this.soTrang = soTrang;
+        this.nhaXuatBan = nhaXuatBan;
+        this.giaNiemYet = giaNiemYet;
+        this.giaBan = giaBan;
+        this.soLuong = soLuong;
+    }
+
 
 }

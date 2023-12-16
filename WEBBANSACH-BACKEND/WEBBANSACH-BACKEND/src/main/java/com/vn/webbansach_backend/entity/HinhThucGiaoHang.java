@@ -27,7 +27,7 @@ public class HinhThucGiaoHang {
 
     private String moTa;
 
-    private double chiPhiGiaoHang;
+    private Long chiPhiGiaoHang;
 
     @OneToMany(mappedBy = "hinhThucGiaoHang", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<DonHang> danhSachDonHang;

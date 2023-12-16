@@ -21,7 +21,9 @@ public class Endpoints {
             "/api/nha-xuat-ban/get-by-masach",
             "/api/admin/san-pham/get-book-response/**",
             "/api/nha-phat-hanh/get-by-masach",
-            "/api/client/get-info-sach"
+            "/api/client/get-new-book",
+            "/api/client/get-info-sach",
+            "/api/client/get-book-by-category"
 
 
 

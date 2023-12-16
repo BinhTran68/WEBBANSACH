@@ -2,6 +2,8 @@ import BookModel from "../models/BookModel";
 import {getRequest} from "./Request";
 import {baseUrl} from "../layouts/ultils/config";
 import SachResponseModel from "../models/SachResponseModel";
+import AxiosApiService from "./admin/AxiosApiService";
+import {AxiosResponse} from "axios";
 
 
 interface ResultAPI<T> {
@@ -31,23 +33,56 @@ async function getBook(url: string): Promise<ResultAPI<BookModel>> {
 }
 
 
-export async function getTheLatestBook(): Promise<ResultAPI<BookModel>> {
-    // Lấy sản phẩm được bán ít nhất tháng trước ra làm flash sale hoặc là sản phẩm do admin set
-    const url: string = `${baseUrl}/sach?sort=maSach,asc&page=0&size=6`;
-    return getBook(url);
+export async function getTheLatestBook(pageNumber:number, pageSize:number): Promise<BookModel[]> {
+    const  url: string = `${baseUrl}/api/client/get-new-book?pageNumber=${pageNumber}&pageSize=${pageSize}`
+    const  res = await AxiosApiService.getApiResponse(url);
+    return res.data.content;
 }
+
+export async function getTheLatestBookByEconomic(pageNumber:number, pageSize:number): Promise<BookModel[]> {
+    const  url: string = `${baseUrl}/api/client/get-book-by-category?pageNumber=${pageNumber}&pageSize=${pageSize}&categoryName=Kinh Tế`
+    const  res = await AxiosApiService.getApiResponse(url);
+    return res.data.content;
+}
+
+export async function getTheLatestBookByComicManga(pageNumber:number, pageSize:number): Promise<BookModel[]> {
+    const  url: string = `${baseUrl}/api/client/get-book-by-category?pageNumber=${pageNumber}&pageSize=${pageSize}&categoryName=Truyện Tranh`
+    const  res = await AxiosApiService.getApiResponse(url);
+    return res.data.content;
+}
+
+export async function getTheLatestBookLifeSkillAndMentality(pageNumber:number, pageSize:number): Promise<BookModel[]> {
+    const  url: string = `${baseUrl}/api/client/get-book-by-category?pageNumber=${pageNumber}&pageSize=${pageSize}&categoryName=Tâm Lý`
+    const  res = await AxiosApiService.getApiResponse(url);
+    return res.data.content;
+}
+
+export async function getTheLatestBookLiterature(pageNumber:number, pageSize:number): Promise<BookModel[]> {
+    const  url: string = `${baseUrl}/api/client/get-book-by-category?pageNumber=${pageNumber}&pageSize=${pageSize}&categoryName=Tâm Lý`
+    const  res = await AxiosApiService.getApiResponse(url);
+    return res.data.content;
+}
+
 
 export async function getFlashSaleBook(): Promise<ResultAPI<BookModel>> {
     const url: string = `${baseUrl}/sach?sort=maSach,desc&page=0&size=6`;
     return getBook(url);
 }
 
+
+// export async function getTop6BookFinanceEconomics(): Promise<ResultAPI<BookModel>> {
+//     const  url:string = ``
+//
+//     return ;
+// }
+
 export async function getAllBooks(page: number): Promise<ResultAPI<BookModel>> {    // Hoạt động bất độ
 
     const url: string = `${baseUrl}/sach?sort=maSach,desc&size=12&page=${page}`;
-
     return getBook(url);
 }
+
+
 
 
 export async function getBookBySearchValue(value: string): Promise<ResultAPI<BookModel>> {

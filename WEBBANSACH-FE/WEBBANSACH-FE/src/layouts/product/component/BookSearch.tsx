@@ -24,7 +24,7 @@ const BookSearch: React.FC<BookPropsInterface> = (props) => {
 
     imageList.forEach(image => {
         if (image.icon == true) {
-            bookAvata = image.duLieuAnh != undefined ? image.duLieuAnh : 'https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fahasa-logo.png';
+            bookAvata = image.link != undefined ? image.link : 'https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fahasa-logo.png';
         }
     })
 
@@ -48,12 +48,12 @@ const BookSearch: React.FC<BookPropsInterface> = (props) => {
         <div>
             <Link className='' style={{ 'textDecoration': 'none', 'color': 'black' }} to={`/san-phams/${props.book.maSach}`}  >
 
-                <li className="px-4 bookSearchIteam border-0 list-group-item d-flex align-items-center">
+                <li  className="px-2  bookSearchIteam border-1 list-group-item d-flex align-items-center">
 
-                    <img width={'40px'} src={`${bookAvata}`} alt="" className='' />
-                    <span className='ms-4'> {props.book.tenSach}</span>
-
-
+                    <img width={'60rem'} src={`${bookAvata}`} alt="" className='' />
+                    <div className={""}>
+                        <span className='ms-2 p-1 two-line overflow-auto'> {props.book.tenSach}</span>
+                    </div>
 
                 </li>
             </Link>

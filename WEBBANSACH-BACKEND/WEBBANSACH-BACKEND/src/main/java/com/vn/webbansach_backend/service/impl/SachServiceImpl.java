@@ -78,7 +78,7 @@ public class SachServiceImpl implements SachService {
         sach.setGiaNiemYet(sachRequest.getGiaNiemYet());
         sach.setDichGia(sachRequest.getDichGia());
         sach.setSoLuong(sachRequest.getSoLuong());
-        sach.setTrungBinhXepHang(Double.parseDouble("0"));
+        sach.setTrungBinhXepHang(Float.parseFloat("0"));
 
         List<TheLoai> theLoaiList = new ArrayList<>();
 
@@ -164,5 +164,21 @@ public class SachServiceImpl implements SachService {
 
         return ResponseEntity.ok(bookInfoResponse);
     }
+
+
+
+    @Override
+    public ResponseEntity<?> findNewBookByPage(Pageable pageable) {
+         Page<BookInfoResponse> pageNewBook = sachRepository.getNewBookPageSachResponse(pageable);
+         return  ResponseEntity.ok(pageNewBook);
+    }
+
+    @Override
+    public ResponseEntity<?> findBookByCategoryName(Pageable pageable, String categoryName) {
+
+        Page<BookInfoResponse> pageNewBook = sachRepository.getBookPageByCategoryName(pageable, categoryName);
+        return ResponseEntity.ok(pageNewBook);
+    }
+
 
 }

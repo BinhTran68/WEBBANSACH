@@ -1,5 +1,6 @@
 package com.vn.webbansach_backend.entity;
 
+import com.vn.webbansach_backend.entity.base.AuditEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +16,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "su_danh_gia")
-public class DanhGia {
+public class DanhGia extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class DanhGia {
     private long maDanhGia;
 
     @Column(name = "diem_xep_hang")
-    private float diemXepHang;//1->5
+    private float diemXepHang;//1->5 /
 
     @Column(name = "nhan_xet")
     private String nhanXet;

@@ -16,4 +16,10 @@ public interface SachService {
     ResponseEntity<Object> delSachById(Integer id);
 
     ResponseEntity<?> findInfoSachById(Integer maSach);
+
+
+    ResponseEntity<?> findNewBookByPage(Pageable pageable);
+
+
+    ResponseEntity<?> findBookByCategoryName(Pageable pageable, String categoryName);
 }

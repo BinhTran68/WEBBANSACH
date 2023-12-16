@@ -5,13 +5,22 @@
 }
 
 .bookSearchIteam {
-    height: 50px;
+    height: 5rem;
     display: block;
     cursor: pointer;
+    .two-line {
+        font-size: 13px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        //text-overflow: ellipsis;
+    }
 }
 
 .bookSearchIteam:hover {
     background-color: #f5e5ee;
+
 }
 
 

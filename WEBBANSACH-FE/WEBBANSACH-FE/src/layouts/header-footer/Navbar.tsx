@@ -76,7 +76,7 @@ const Navbar = () => {
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Thể loại sách
+                  Thể Loại
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown1">
                 <li><a className="dropdown-item" href="1">Thể loại 1</a></li>
@@ -86,7 +86,7 @@ const Navbar = () => {
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Quy định bán hàng
+                  Nhà phát hành
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown2">
                 <li><a className="dropdown-item" href="#">Quy định 1</a></li>
@@ -102,11 +102,11 @@ const Navbar = () => {
 
         {/* Tìm kiếm */}
         <form className="d-flex position-relative">
-          <input className="form-control input-search me-4" onChange={onSearchInputChange} type="search" placeholder="Tìm kiếm" aria-label="Search" />
+          <input className="form-control input-search me-4" value={querySearch} onChange={onSearchInputChange} type="search" placeholder="Tìm kiếm" aria-label="Search" />
           <button className="btn btn-danger" type="submit"> <Search/> </button>
-          <div className={` ${querySearch == '' ? ' ' : ''} hidden position-absolute top-100 border rounded-3  ulsearch-nav`}>
+          <div className={` ${querySearch == '' ? ' ' : ''} hidden position-absolute top-100  rounded-3  ulsearch-nav`}>
 
-            <ul className="list-group  ">
+            <ul className="list-group" onClick={()=> setQuerySearch("")}>
               {
                 productList.map((book) =>
                   <BookSearch book={book} />
@@ -120,9 +120,9 @@ const Navbar = () => {
         {/* Biểu tượng giỏ hàng */}
         <ul className="navbar-nav me-1">
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <Link className="nav-link" to="/gio-hang">
               <i className="fas fa-shopping-cart"></i>
-            </a>
+            </Link>
           </li>
         </ul>
 

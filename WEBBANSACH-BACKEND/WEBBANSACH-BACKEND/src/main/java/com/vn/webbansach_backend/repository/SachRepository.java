@@ -69,6 +69,19 @@ public interface SachRepository extends JpaRepository<Sach, Integer> {
             " s.giaNiemYet, s.giaBan, s.soLuong) " +
             " FROM Sach s left join s.danhSachNhaPhatHanh nph left join s.nhaXuatBanSach nxb where s.maSach = :maSach")
     BookInfoResponse getInfoBookResponseByMaSach(@Param("maSach") Integer maSach);
-    
+
+
+
+    @Query(" select  new com.vn.webbansach_backend.response.BookInfoResponse(s.maSach, s.tenSach, s.tenTacGia, s.loaiBia, s.moTa ,s.ISBN, s.hangChinhHang, nph.tenNhaPhatHanh, s.soTrang, nxb.tenNhaXuatBan, " +
+            " s.giaNiemYet, s.giaBan, s.soLuong) " +
+            " FROM Sach s left join s.danhSachNhaPhatHanh nph left join s.nhaXuatBanSach nxb ")
+    Page<BookInfoResponse> getNewBookPageSachResponse(Pageable pageable);
+
+
+    @Query(" select  new com.vn.webbansach_backend.response.BookInfoResponse(s.maSach, s.tenSach, s.moTa, s.giaNiemYet, s.giaBan, s.trungBinhXepHang) " +
+            " FROM Sach s left join s.danhSachTheLoai tl where tl.tenTheLoai like %:categoryName%")
+    Page<BookInfoResponse> getBookPageByCategoryName(Pageable pageable,@Param("categoryName") String categoryName);
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.vn.webbansach_backend.entity;
 
+import com.vn.webbansach_backend.entity.base.AuditEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +18,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "hinh_anh")
-public class HinhAnh {
+public class HinhAnh extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

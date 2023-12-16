@@ -19,3 +19,10 @@ export default function usePercentDiscount(giaNiemYet: number , giaBan: number) 
         return percentDiscount;
 
 }
+
+export const ROLE_USER_NHANVIEN_QUANLY_ADMIN:string[] = ["USER","ADMIN", "QUAN_LY", "NHAN_VIEN"];
+export const ROLE_USER_NHANVIEN_QUANLY:string[] = ["USER", "QUAN_LY", "NHAN_VIEN"];
+export const ROLE_USER_NHANVIEN:string[] = ["USER", "NHAN_VIEN"];
+export const ROLE_USER:string[] = ["USER"];
+
+

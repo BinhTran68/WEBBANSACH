@@ -20,7 +20,7 @@ public class HinhThucThanhToan {
     private int maHinhThucThanhToan;
     private String tenHinhThucThanhToan;
     private String moTa;
-    private double chiPhiThanhToan;
+    private Long chiPhiThanhToan;
 
     @OneToMany(mappedBy = "hinhThucThanhToan", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<DonHang> danhSachDonHang;

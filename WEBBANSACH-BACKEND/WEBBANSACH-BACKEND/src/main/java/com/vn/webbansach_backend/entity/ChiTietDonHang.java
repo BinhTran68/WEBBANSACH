@@ -1,5 +1,7 @@
 package com.vn.webbansach_backend.entity;
 
+import com.vn.webbansach_backend.constant.StatusCart;
+import com.vn.webbansach_backend.entity.base.AuditEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,16 +16,19 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "chi_tiet_don_hang")
-public class ChiTietDonHang {
+public class ChiTietDonHang extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ma_chi_tiet_don_hang")
-    private long maChiTietGioHang;
+    private long maChiTietDonHang;
+
 
 
     private int soLuong;
-    private double giaBan;
+
+
+    private Long giaBan;
 
     @ManyToOne(
             cascade = {

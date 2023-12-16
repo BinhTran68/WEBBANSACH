@@ -7,6 +7,9 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import "../adminComponent.scss"
 
 import {Routes, Route, Outlet, useNavigate, Link} from 'react-router-dom';
+import RequireAdmin from '../RequireAdmin';
+import { ROLE_USER_NHANVIEN_QUANLY_ADMIN } from '../../ultils/config';
+
 
 
 const AdminHome = () => {
@@ -105,4 +108,6 @@ const AdminHome = () => {
 
 }
 
-export default AdminHome;
+
+const AdminHomeAdmin_QuanLy_NhanVien = RequireAdmin(AdminHome, ROLE_USER_NHANVIEN_QUANLY_ADMIN);
+export default AdminHomeAdmin_QuanLy_NhanVien;

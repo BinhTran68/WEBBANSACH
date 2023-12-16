@@ -6,7 +6,7 @@ import {getAllBooks} from "../../api/SachAPI";
 import Pagination from "@mui/material/Pagination";
 import {Box} from '@mui/material';
 import DangTaiDuLieuComponent from '../ultils/DangTaiDuLieuComponent';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 
 
 const ListProduct: React.FC = () => {
@@ -24,12 +24,25 @@ const ListProduct: React.FC = () => {
     const [filterByPrice, setFillterByPrice] = useState();
 
 
+
+
+    const navigate = useNavigate();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const handleChange = (event: any, page: number) => {
         // Cập nhật state của currentPage bằng value
+        // @ts-ignore
+        setSearchParams({page: page});
         setCurrentPage(page);
     };
 
+
+
     useEffect(() => {
+        const page = Number(searchParams.get("page")) || 1;
+        setCurrentPage(page);
+
         getAllBooks(currentPage - 1).then(
             data => {
                 setProductList(data.result);
@@ -48,6 +61,9 @@ const ListProduct: React.FC = () => {
         )
 
     }, [currentPage]) // Chỉ gọi 1 lần
+
+
+
 
 
     if (dangTaiDuLieu) {

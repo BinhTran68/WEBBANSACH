@@ -1,5 +1,6 @@
 package com.vn.webbansach_backend.entity;
 
+import com.vn.webbansach_backend.entity.base.AuditEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "nguoi_dung")
 @Data
-public class NguoiDung {
+public class NguoiDung extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,5 +82,14 @@ public class NguoiDung {
             CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE , CascadeType.REMOVE
     })
     private List<DonHang> danhSachDonHang;
+
+
+    @OneToMany(
+            mappedBy = "nguoiDung",
+            fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE , CascadeType.REMOVE
+    }
+    )
+    private List<GioHang> danhSachGioHang;
 
 }

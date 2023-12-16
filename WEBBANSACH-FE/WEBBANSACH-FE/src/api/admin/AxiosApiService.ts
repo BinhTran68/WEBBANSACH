@@ -7,7 +7,7 @@ const config = {
 };
 
 class AxiosApiService {
-    getAllImages(url:string) {
+    getApiResponse(url:string) {
         return axios.get(url);
     }
 

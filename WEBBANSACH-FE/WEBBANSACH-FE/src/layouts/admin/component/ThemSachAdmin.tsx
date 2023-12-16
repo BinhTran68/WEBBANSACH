@@ -15,6 +15,8 @@ import Select, {SelectChangeEvent} from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import FileService from "../../../api/admin/AxiosApiService";
 import {toast, ToastContainer} from "react-toastify";
+import {Backdrop, CircularProgress} from "@mui/material";
+import RequireAdmin from "../RequireAdmin";
 
 
 const ThemSachAdmin: React.FC<{}> = () => {
@@ -28,6 +30,9 @@ const ThemSachAdmin: React.FC<{}> = () => {
     const [srcImage, setSrcImage] = useState("");
 
     const [bookImage, setBookImage] = useState<File | Blob | null>(null);
+
+    const [loading, setLoading] = useState(false);
+
 
 
     useEffect(() => {
@@ -102,7 +107,10 @@ const ThemSachAdmin: React.FC<{}> = () => {
     }
 
     const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
+        event.preventDefault()
+
+        setLoading(true);
+
         const url = `${baseUrl}/api/admin/san-pham/add-sach`;
 
         const formData = new FormData();
@@ -198,6 +206,19 @@ const ThemSachAdmin: React.FC<{}> = () => {
             setBookImage(value);
         }
 
+    }
+
+    if (loading) {
+        return (
+            <>
+                <Backdrop
+                    sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
+                    open={true}
+                >
+                    <CircularProgress color="inherit"/>
+                </Backdrop>
+            </>
+        )
     }
 
 
@@ -451,4 +472,6 @@ const ThemSachAdmin: React.FC<{}> = () => {
 
 }
 
-export default ThemSachAdmin;
+const SachForm_Admin = RequireAdmin(ThemSachAdmin,  ["ADMIN", "QUAN_LY", "NHAN_VIEN"]);
+
+export default SachForm_Admin;

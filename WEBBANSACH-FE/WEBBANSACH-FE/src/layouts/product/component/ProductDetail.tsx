@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {getBookById, getFlashSaleBook} from '../../../api/SachAPI'
+import {getBookById, getFlashSaleBook, getTheLatestBook} from '../../../api/SachAPI'
 import {useParams} from 'react-router-dom'
 import BookModel from '../../../models/BookModel';
 import {error} from 'console';
@@ -79,7 +79,7 @@ const ProductDetail = () => {
     useEffect(() => {
         const url = `${baseUrl}/api/client/get-info-sach?maSach=${maSach}`;
 
-        AxiosApiService.getAllImages(url).then((book) => {
+        AxiosApiService.getApiResponse(url).then((book) => {
                 console.log("mã sách " + maSachNumber);
             console.log(book.data);
                 // @ts-ignore
@@ -154,6 +154,7 @@ const ProductDetail = () => {
                                     </div>
                                     <div className={"col-5"}>
                                         <p>Hình Thức bìa : <strong> {book.loaiBia}</strong></p>
+                                        <p>Nhà Xuất  : <strong> {book.nhaXuatBan}</strong></p>
                                     </div>
 
                                 </div>
@@ -210,8 +211,8 @@ const ProductDetail = () => {
             <div className={"row mt-5 p-0"}>
                 <div className={"border rounded mt-2"}>
                     <h4 className={"m-0 ms-3 mt-3"}>FAHASHA GIỚI THIỆU</h4>
-                    {/* Lấy top 6 sản phẩm mới nhất đề xuất */}
-                    <FeaturedProducts fetchBooks={getFlashSaleBook}/>
+
+                    <FeaturedProducts fetchBooks={getTheLatestBook} pageNumber={0} pageSize={6}/>
 
                 </div>
             </div>

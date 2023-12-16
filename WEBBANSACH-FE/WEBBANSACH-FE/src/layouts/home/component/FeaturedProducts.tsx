@@ -5,14 +5,16 @@ import error = Simulate.error;
 import { getAllBooks } from "../../../api/SachAPI";
 import BookModel from "../../../models/BookModel";
 import BookProps from "../../product/component/BookProps";
+import {Link} from "react-router-dom";
 
 
 
-interface Props { fetchBooks: () => Promise<any>; }
+//
+// interface Props { fetchBooks: (pageNumber: number, pageSize: number) => Promise<BookModel[]>; }
 
+interface Props { fetchBooks: (pageNumber: number, pageSize: number) => Promise<BookModel[]>; pageSize: number; pageNumber: number; }
 //  Nếu không FeaturedProducts: React.FC<Props> nếu không thì sẽ chỉ là component rỗng
-const FeaturedProducts: React.FC<Props> = ({ fetchBooks }) => {
-
+const FeaturedProducts: React.FC<Props> = ({ fetchBooks, pageNumber, pageSize }) => {
 
     const [productList, setProductList] = useState<BookModel[]>([]); // Khi cập nhật thì tự động cập nhật giao diện
 
@@ -21,15 +23,14 @@ const FeaturedProducts: React.FC<Props> = ({ fetchBooks }) => {
     const [baoLoi, setBaoLoi] = useState(null);
 
     useEffect(() => {
-        fetchBooks().then(
-            data => {
-                setProductList(data.result);
+        fetchBooks(pageNumber,pageSize).then(
+            (res) => {
+                console.log(res);
+                setProductList(res);
                 setDangTaiDuLieu(false);
             }
         ).catch(
-            error => {
-                setBaoLoi(error.message)
-            }
+
         )
 
     }, [fetchBooks]) // Chỉ gọi 1 lần
@@ -55,20 +56,17 @@ const FeaturedProducts: React.FC<Props> = ({ fetchBooks }) => {
     }
     return (
         <div className={' container'}>
-            <div className={"row mt-4"}>
-
+            <div className={"row mt-4 "}>
                 {
                     productList.map((book) => (
-                        <div className='col-xl-2 col-md-4 book-hover'>
+                        <div className='col-xl-2 mb-2 col-md-4 book-hover'>
                             <BookProps key={book.maSach} book={book} />
                         </div>
                     ))
                 }
-
-
             </div>
-            <div className={'mt-5 mb-4 d-flex justify-content-around align-items-center'}>
-                <button type="button" className="btn btn-outline-danger">Xem thêm</button>
+            <div className={'mt-3 mb-3 d-flex justify-content-around align-items-center'}>
+                <Link to={"/san-phams"} type="button" className="btn w-25 btn-outline-danger">Xem thêm</Link>
             </div>
         </div>
     );

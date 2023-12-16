@@ -1,5 +1,6 @@
 package com.vn.webbansach_backend.entity;
 
+import com.vn.webbansach_backend.entity.base.AuditEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,32 +13,31 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-
-import java.sql.Date;
 import java.util.List;
+
+
+
 @Data
 @Entity
 @Table(name = "don_hang")
-public class DonHang {
+public class DonHang extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ma_don_hang")
     private int maDonHang;
 
-    private Date ngayTao;
-
-
     private String diaChiMuaHang;
+
     private String diaChiNhanHang;
 
-    private double tongTienSanPham;
+    private Long tongTienSanPham;
 
-    private double chiPhiGiaoHang;
+    private Long chiPhiGiaoHang;
 
-    private double chiPhiThanhToan;
+    private Long chiPhiThanhToan;
 
-    private double tongTien;
+    private Long tongTien;
 
     @OneToMany(
             mappedBy = "donHang",

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.scss';
 
 import HomePage from './layouts/home/HomePage';
 import ListProduct from './layouts/product/ListProduct';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import About from './layouts/home/component/About';
 import ProductDetail from './layouts/product/component/ProductDetail';
 import NotFound404 from './layouts/ultils/NotFound404';
@@ -20,9 +20,16 @@ import UpdateSachAdmin from "./layouts/admin/component/UpdateSachAdmin";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UpdateImageSach from './layouts/admin/component/UpdateImageSach';
+import Cart from "./layouts/cart/Cart";
+import AdminHomeAdmin_QuanLy_NhanVien from './layouts/admin/component/AdminHome';
+
+
+
 
 
 function App() {
+
+
 
   // @ts-ignore
   return (
@@ -35,6 +42,7 @@ function App() {
               <Route path='/san-phams/:maSach' element={<ProductDetail/>}/>
               <Route path='/dangky' element={<DangKy/>}/>
               <Route path='/dang-nhap' element={<DangNhap/>}/>
+              <Route path='/gio-hang' element={<Cart/>}/>
               <Route path='/gioi-thieu' element={<About/>}/>
               <Route path='/404notfound' element={<NotFound404/>}/>
               <Route path='/error' element={<ErrorPage/>}/>
@@ -43,7 +51,7 @@ function App() {
               <Route path="*" element={<NotFound404 />} />
               <Route path="/404" element={<NotFound404 />} />
             </Route>
-            <Route path={"/admin"} element={<AdminHome/>} >
+            <Route path={"/admin"} element={<AdminHomeAdmin_QuanLy_NhanVien/>} >
               <Route path={"/admin/add-sach"} element={<ThemSachAdmin/>}/>
               <Route path={"/admin/quan-ly-sach"} element={<QuanLySach/>}/>
               <Route path={"/admin/quan-ly-sach/edit/:maSach"} element={<UpdateSachAdmin/>}/>
