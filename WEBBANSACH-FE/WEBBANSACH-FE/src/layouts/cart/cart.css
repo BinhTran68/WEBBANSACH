@@ -1,0 +1,29 @@
+.tr-table-cart {
+    height: 10rem;
+}
+
+.td-cart {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 20rem;
+    min-height: 30px;
+}
+
+.td-item {
+    height: 10rem;
+}
+
+.td-quantity {
+    height: 10rem;
+
+}
+
+.image-cart {
+    display: block;
+    height: 10rem;
+    margin: auto 0;
+
+}

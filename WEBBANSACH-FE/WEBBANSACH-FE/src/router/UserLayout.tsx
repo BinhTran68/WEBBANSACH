@@ -13,10 +13,10 @@ const UserLayout = ()   => {
     }, [pathname])
 
         return (
-            <div className={"container-fluid p-0"} >
+            <div className={"container-fluid p-0 bg-light"} >
                 <HeaderBaner/>
                 <Navbar/>
-                <div className={"container"}>
+                <div className={"container p-0"}>
                     <Outlet/>
                 </div>
                 <Footer/>

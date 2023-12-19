@@ -3,6 +3,7 @@ import { log } from 'console';
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { getToken } from '../ultils/config';
 interface JwtPayLoad {
    roles:string[]
 }
@@ -12,8 +13,10 @@ const RequireAdmin = <P extends object>(WrappedComponent: React.ComponentType<P>
     const WithAdminCheck: React.FC<P> = (props) => {
         const navigate = useNavigate();
         useEffect(() => {
-            const token = localStorage.getItem('token');
+            const token = getToken;
             // Trong tình huống chưa đăng nhập
+            console.log(token);
+            
             if (!token) {
                 navigate("/dang-nhap");
                 return;

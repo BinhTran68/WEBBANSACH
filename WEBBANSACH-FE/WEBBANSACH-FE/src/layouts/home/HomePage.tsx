@@ -30,35 +30,35 @@ function HomePage() {
             <Baner/>
             <Carousel/>
 
-            <div className={"border  mt-5"}>
+            <div className={" bg-white  mt-5"}>
                 <div className='head-featured '>
                     <h5>Sách mới nhất</h5>
                 </div>
                 <FeaturedProducts fetchBooks={getTheLatestBook} pageNumber={0} pageSize={6}/>
             </div>
 
-            <div className={"border  mt-5"}>
+            <div className={"bg-white mt-5"}>
                 <div className='head-featured  bg-warning'>
                     <h5>Sách kinh tế</h5>
                 </div>
                 <FeaturedProducts fetchBooks={getTheLatestBookByEconomic} pageNumber={0} pageSize={12}/>
             </div>
 
-            <div className={"border  mt-5"}>
+            <div className={" bg-white mt-5"}>
                 <div className='head-featured  bg-warning'>
                     <h5>Sách Tâm Lý - Kĩ Năng sống</h5>
                 </div>
                 <FeaturedProducts fetchBooks={getTheLatestBookByEconomic} pageNumber={0} pageSize={12}/>
             </div>
 
-            <div className={"border  mt-5"}>
+            <div className={" bg-white mt-5"}>
                 <div className='head-featured  bg-warning'>
                     <h5>Văn Học</h5>
                 </div>
                 <FeaturedProducts fetchBooks={getTheLatestBookByEconomic} pageNumber={0} pageSize={12}/>
             </div>
 
-            <div className={"border  mt-5"}>
+            <div className={" bg-white mt-5"}>
                 <div className='head-featured  bg-danger'>
                     <h5>Truyện tranh</h5>
                 </div>

@@ -89,7 +89,7 @@ const AdminHome = () => {
                     </div>
                 </nav>
             </div>
-            <main className={"mx-5 px-5"}>
+            <main className={"min-vh-100 mx-5"}>
                 <Outlet/>
             </main>
             <footer className="py-3 my-4">

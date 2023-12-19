@@ -6,12 +6,16 @@ import DangTaiDuLieuComponent from '../../ultils/DangTaiDuLieuComponent';
 
 interface HinhAnhSanPham {
     maSach: number;
+    getLinkIconImage: (linkAnh: string) => void;
 
 }
 
 const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
 
     const maSach: number = props.maSach;
+
+    const getLinkIconImage = props.getLinkIconImage;
+
 
     const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
 
@@ -24,6 +28,8 @@ const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
     const [hinhAnhDangChon, setHinhAnhDangChon] = useState<IImageModel | null>(null);
 
     const [hinhAnhTruocDo, setHinhAnhTruocDo] = useState<IImageModel | null>(null);
+
+
 
     const chonAnh = (image: IImageModel) => {
         setHinhAnhDangChon(image);
@@ -41,8 +47,11 @@ const HinhAnhSanPham: React.FC<HinhAnhSanPham> = (props) => {
                 if (data.length > 0) {
                     data.forEach((item) => {
                         if (item.icon) {
+                            getLinkIconImage(item.link?item.link:"");
                             setHinhAnhDangChon(item);
                             setSelectedImage(item);
+
+
                         }
                     });
                     setDangTaiDuLieu(false);

@@ -5,9 +5,8 @@ import IImageModel from "../../../models/IImageModel";
 import { Link } from 'react-router-dom';
 import DangTaiDuLieuComponent from '../../ultils/DangTaiDuLieuComponent';
 import renderRaiting from '../../ultils/renderRaiting';
-import {nlNL} from "@mui/material/locale";
-import { log } from 'console';
-import usePercentDiscount from "../../ultils/config";
+import "../product.css"
+
 
 interface BookPropsInterface {
 
@@ -100,7 +99,7 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
 
     return (
         <div >
-            <div className="card  border-0 p-2 ">
+            <div className="card  border-0 p-2 overflow-hidden">
                 <Link className='' style={{ 'textDecoration': 'none', 'color': 'black', 'minWidth' : '100%' }} to={`/san-phams/${props.book.maSach}`}  >
                     <img
                         src={`${bookAvata}`}
@@ -109,8 +108,7 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
                         style={{ height: '175px', width: '158px' }}
                     />
                     <div className="card-body">
-                        <h6 className="card-title text-truncate">{props.book.tenSach}</h6>
-                        <p className="card-text  text-truncate">{props.book.moTa}</p>
+                        <h6 className="w-100 text-2-lines">{props.book.tenSach}</h6>
                         <strong>{renderRaiting(props.book.trungBinhXepHang?props.book.trungBinhXepHang: 5)}</strong>
 
                         <div className={"d-flex align-items-center justify-content-between"}>

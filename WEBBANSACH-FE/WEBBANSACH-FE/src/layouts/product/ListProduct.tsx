@@ -150,7 +150,9 @@ const ListProduct: React.FC = () => {
                     </div>
 
                 </div>
-                <div className='col-md-10  p-0'>
+
+
+                <div className='col-md-10 bg-white p-0 overflow-hidden'>
                     <div>
                         <div className=' d-flex align-items-center justify-content-start'>
                             <a className='p-3' href="">Phổ Biến</a>
@@ -160,7 +162,7 @@ const ListProduct: React.FC = () => {
                     <div className={"row mb-4 mt-4 "}>
                         {
                             productList.map((book) => (
-                                <div className='col-md-4 col-sm-6 col-6 col-xl-3 book-hover'>
+                                <div className='col-md-4 col-sm-6 col-6 col-xl-3 px-0 book-hover'>
                                     <BookProps key={book.maSach} book={book}/>
                                 </div>
 

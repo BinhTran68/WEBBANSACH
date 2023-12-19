@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {baseUrl} from "../ultils/config";
 import {message} from "antd";
 
@@ -9,6 +9,12 @@ const DangNhap = () => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [statusMessage, setStatusMessage] = useState(true);
+
+    const navigate = useNavigate(); // Lấy hàm navigate
+
+
+
+
 
 
     const handleLogin = async () => {
@@ -55,10 +61,10 @@ const DangNhap = () => {
             (data) => {
                 const {jwt} = data;
                 localStorage.setItem("token", jwt);
-
+                navigate(-1);
             }
         ).catch((error) => {
-            console.log(error);
+
             setStatusMessage(false);
             setMessage("Đăng nhập không thành công. Vui lòng kiểm tra tài khoản mật khẩu")
         })

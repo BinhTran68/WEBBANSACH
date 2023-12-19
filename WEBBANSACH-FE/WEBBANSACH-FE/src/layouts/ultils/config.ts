@@ -25,4 +25,19 @@ export const ROLE_USER_NHANVIEN_QUANLY:string[] = ["USER", "QUAN_LY", "NHAN_VIEN
 export const ROLE_USER_NHANVIEN:string[] = ["USER", "NHAN_VIEN"];
 export const ROLE_USER:string[] = ["USER"];
 
+export const  getToken = localStorage.getItem('token');
+
+export const logout = () => {
+    localStorage.removeItem('token');
+};
+
+const formatter = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+});
+
+export const formattedPrice = (price: number) => {
+    return formatter.format(price);
+}
+
 

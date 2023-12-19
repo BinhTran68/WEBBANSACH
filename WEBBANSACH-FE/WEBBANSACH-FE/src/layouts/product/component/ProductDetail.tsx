@@ -11,6 +11,8 @@ import formattedPrice from '../../ultils/formattedPrice';
 import FeaturedProducts from "../../home/component/FeaturedProducts";
 import AxiosApiService from "../../../api/admin/AxiosApiService";
 import {baseUrl} from "../../ultils/config";
+import {useAuth} from "../../ultils/useAuth";
+import CartModel from "../../../models/CartModel";
 
 
 const ProductDetail = () => {
@@ -35,7 +37,12 @@ const ProductDetail = () => {
 
     const [baoLoi, setBaoLoi] = useState(null);
 
+    const [iconImageLink, setIconImageLink] = useState("");
+
     const [quantity, setQuantity] = useState(1);
+
+    const [isLogin, userName, logout] = useAuth();
+
 
     const quantityBookExits = book?.soLuong ? book.soLuong : 0;
 
@@ -66,12 +73,41 @@ const ProductDetail = () => {
     }
 
     const handlerBuyNow = () => {
-        alert("Thêm vào gio hang");
+        alert("Chuyển sang trang đăng nhập");
     }
+
+    const booksAtLocalStore: CartModel[] = JSON.parse(localStorage.getItem("books") as string  || "[]" ) ;
+
 
 
     const handlerAddToCard = () => {
-        alert("them vào")
+        if (!isLogin) {
+            const bookToCart: CartModel = {
+                maSach: book?.maSach?book.maSach:0,
+                tenSach: book?.tenSach?book.tenSach:"",
+                giaBan: book?.giaBan?book.giaBan:0,
+                giaNiemYet: book?.giaNiemYet?book.giaNiemYet:0,
+                linkImage:iconImageLink,
+                soLuong:quantity,
+                createdDate:Date.now()
+            }
+
+            let bookExits = booksAtLocalStore.find((bookCart) => bookCart.maSach === bookToCart.maSach );
+
+            if (bookExits) {
+                let index = booksAtLocalStore.findIndex((bookCart) => bookCart.maSach === bookToCart.maSach);
+
+                booksAtLocalStore[index].soLuong = bookToCart.soLuong + bookExits.soLuong;
+                booksAtLocalStore[index].createdDate = Date.now();
+
+            } else  {
+                booksAtLocalStore.push(bookToCart);
+            }
+
+            const bookJson = JSON.stringify(booksAtLocalStore);
+            localStorage.setItem("books",bookJson )
+        }
+
     }
 
 
@@ -80,8 +116,6 @@ const ProductDetail = () => {
         const url = `${baseUrl}/api/client/get-info-sach?maSach=${maSach}`;
 
         AxiosApiService.getApiResponse(url).then((book) => {
-                console.log("mã sách " + maSachNumber);
-            console.log(book.data);
                 // @ts-ignore
             setBook(book.data);
                 setDangTaiDuLieu(false);
@@ -124,12 +158,17 @@ const ProductDetail = () => {
         )
     }
 
+    const getLinkByChild = (data:string) => {
+        setIconImageLink(data);
+    }
+
+
 
     return (
         <div className='container  pt-2 mt-2'>
             <div className='row'>
                 <div className='col-md-4'>
-                    <HinhAnhSanPham maSach={maSachNumber}/>
+                    <HinhAnhSanPham getLinkIconImage={getLinkByChild} maSach={maSachNumber}/>
                 </div>
                 <div className='col-md-8'>
                     <div className='row '>
@@ -331,7 +370,7 @@ const ProductDetail = () => {
             </div>
 
             <div>
-                <ProductReview maSach={maSachNumber}/>
+                <ProductReview   maSach={maSachNumber}/>
             </div>
         </div>
     )
