@@ -63,6 +63,9 @@ const Navbar = () => {
     const hanleLogOut = () => {
         // @ts-ignore
         logout();
+        window.location.reload();
+
+
     }
 
 

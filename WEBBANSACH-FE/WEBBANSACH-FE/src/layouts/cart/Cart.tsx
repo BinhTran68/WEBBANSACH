@@ -6,46 +6,95 @@ import {useAuth} from "../ultils/useAuth";
 import CartModel from "../../models/CartModel";
 import "./cart.css"
 import {RiDeleteBin6Line} from "react-icons/ri";
-import {formattedPrice} from "../ultils/config";
+import {baseUrl, formattedPrice} from "../ultils/config";
+import AxiosApiService from "../../api/admin/AxiosApiService";
 
 const Cart = () => {
 
     const [isLogin, userName, logout] = useAuth();
 
-    const [itemCartList, setItemCartList] = useState<CartModel[]>([]);
     const [booksAtCart, setBooksAtCart] = useState<CartModel[]>([]);
 
 
     useEffect(() => {
-        if (!isLogin) {
+        if (isLogin) {
+            const url:string = `${baseUrl}/api/cart/get-product-bycart`;
+            AxiosApiService.getApiResponseAuthor(url).then(
+                (res) => {
+                    console.log(res.status);
+                    if (res.status === 204) {
+                        setBooksAtCart([]);
+                    }else {
+                        setBooksAtCart(res.data);
+                    }
+
+                }
+            ).catch(
+                (error) => {
+                    console.log(error);
+                }
+            )
+
+        }else {
             const getBooksAtLocalStore: CartModel[] = JSON.parse(localStorage.getItem("books") as string);
             setBooksAtCart(getBooksAtLocalStore);
         }
 
-
-    }, [])
+    }, [isLogin])
 
 
     const increasingQuantity = (maSach: number) => {
-        // Thêm 1 sản phẩm vào danh sách giỏ hàng trong localsotre
-        const newBookAtLocalStore = booksAtCart.map((book) => {
-            if (book.maSach === maSach) {
-                return {
-                    ...book, soLuong: (book.soLuong+1)
-                };
-            }else {
-                return book;
-            }
+        if (!isLogin) {
+            // Thêm 1 sản phẩm vào danh sách giỏ hàng trong localsotre
+            const newBookAtLocalStore = booksAtCart.map((book) => {
+                if (book.maSach === maSach) {
+                    return {
+                        ...book, soLuong: (book.soLuong + 1)
+                    };
+                } else {
+                    return book;
+                }
 
-        });
-        setBooksAtCart(newBookAtLocalStore);
+            });
+            setBooksAtCart(newBookAtLocalStore);
+            localStorage.setItem("books", JSON.stringify(newBookAtLocalStore));
 
+        }
 
 
     }
 
-    const reduceQuantity = () => {
 
+    const reduceQuantity = (maSach: number) => {
+        if (!isLogin) {
+            const newBookAtLocalStore = booksAtCart.map((book) => {
+                if (book.maSach === maSach) {
+                    return {
+                        ...book, soLuong: (book.soLuong - 1)
+                    };
+                } else {
+                    return book;
+                }
+
+            });
+            setBooksAtCart(newBookAtLocalStore);
+            localStorage.setItem("books", JSON.stringify(newBookAtLocalStore));
+        }
+    }
+
+    const hanldeDeleteBook = (maSach: number) => {
+        if (!isLogin) {
+            const index = booksAtCart.findIndex((book) => book.maSach === maSach);
+
+            if (index !== -1) {
+                booksAtCart.splice(index, 1);
+            }
+            const newBooksAtLocalStore = booksAtCart;
+            localStorage.setItem("books", JSON.stringify(newBooksAtLocalStore));
+            setBooksAtCart(newBooksAtLocalStore);
+
+
+        }
     }
 
     const handlerQuantity = (event: React.ChangeEvent<HTMLInputElement>, maSach: number) => {
@@ -64,15 +113,14 @@ const Cart = () => {
             });
 
             setBooksAtCart(newBooksAtLocalStore);
+            localStorage.setItem("books", JSON.stringify(newBooksAtLocalStore));
         }
 
     }
 
     // Check xem người dùng đã đăng nhập chưa. Nếu người dùng đã đăng nhập thì lấy danh sách
-    if (!isLogin) {
-
-
-        if (booksAtCart === null) {
+    // if (!isLogin) {
+        if (booksAtCart === null || booksAtCart.length === 0) {
             return (
                 <div className={"min-vh-100"}>
                     <div className={"py-3"}>
@@ -92,7 +140,7 @@ const Cart = () => {
                             <Link to={"/san-phams"} type="button" className="btn w-25 btn-danger">Mua Sắm Ngay</Link>
                         </div>
 
-                        <div className={"text-center mt-3"}>
+                        <div className={`text-center mt-3  ${isLogin ? "d-none" : ""}`}>
                             <Link to={"/dang-nhap"} type="button" className="btn w-25 btn-danger">Đăng Nhập Ngay</Link>
                         </div>
                     </div>
@@ -158,7 +206,7 @@ const Cart = () => {
                                                 <div className='d-flex align-items-center mt-5'>
                                                     <button style={{minWidth: '40px'}}
                                                             className='btn btn-outline-danger me-2'
-                                                            onClick={reduceQuantity}>-
+                                                            onClick={() => reduceQuantity(item.maSach)}>-
                                                     </button>
                                                     <input
 
@@ -181,7 +229,10 @@ const Cart = () => {
                                                 </strong>
                                             </td>
                                             <td>
-                                                <RiDeleteBin6Line size={22} className={"mt-5 ms-2"}/>
+                                                <a onClick={() => hanldeDeleteBook(item.maSach)} >
+                                                    <RiDeleteBin6Line size={24} className={"mt-5 ms-2"}/>
+                                                </a>
+
                                             </td>
                                         </tr>
 
@@ -204,35 +255,34 @@ const Cart = () => {
             )
         }
 
-    }
-
-    return (
-        <div className={"min-vh-100"}>
-            <div className={"py-3"}>
-                <h4>
-                    GIỎ HÀNG ( Sản Phẩm)
-                </h4>
-            </div>
-            <div className={"bg-light my-2 rounded text-center  py-5"}>
-                <div>
-                    <LiaCartArrowDownSolid color={""} size={160}/>
-                </div>
-                <small>
-                    Chưa có sản phẩm trong giỏ hàng
-                </small>
-
-                <div className={"text-center  mt-3"}>
-                    <Link to={"/san-phams"} type="button" className="btn w-25 btn-danger">Mua Sắm Ngay</Link>
-                </div>
-
-                <div className={"text-center mt-3"}>
-                    <Link to={"/dang-nhap"} type="button" className="btn w-25 btn-danger">Đăng Nhập Ngay</Link>
-                </div>
-            </div>
-
-
-        </div>
-    );
+    // }
+    // return (
+    //     <div className={"min-vh-100"}>
+    //         <div className={"py-3"}>
+    //             <h4>
+    //                 GIỎ HÀNG ( Sản Phẩm)
+    //             </h4>
+    //         </div>
+    //         <div className={"bg-light my-2 rounded text-center  py-5"}>
+    //             <div>
+    //                 <LiaCartArrowDownSolid color={""} size={160}/>
+    //             </div>
+    //             <small>
+    //                 Chưa có sản phẩm trong giỏ hàng
+    //             </small>
+    //
+    //             <div className={"text-center  mt-3"}>
+    //                 <Link to={"/san-phams"} type="button" className="btn w-25 btn-danger">Mua Sắm Ngay</Link>
+    //             </div>
+    //
+    //             <div className={`text-center mt-3 ${isLogin ? "d-none" : ""}`}>
+    //                 <Link to={"/dang-nhap"} type="button" className="btn w-25 btn-danger">Đăng Nhập Ngay</Link>
+    //             </div>
+    //         </div>
+    //
+    //
+    //     </div>
+    // );
 
 }
 

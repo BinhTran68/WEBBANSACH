@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 
 // @ts-ignore
 import SideNav, {Toggle, Nav, NavItem, NavIcon, NavText} from '@trendmicro/react-sidenav';
@@ -8,17 +8,60 @@ import "../adminComponent.scss"
 
 import {Routes, Route, Outlet, useNavigate, Link} from 'react-router-dom';
 import RequireAdmin from '../RequireAdmin';
-import { ROLE_USER_NHANVIEN_QUANLY_ADMIN } from '../../ultils/config';
-
+import {ROLE_USER_NHANVIEN_QUANLY_ADMIN} from '../../ultils/config';
+import {IoMdClose, IoMdMenu} from "react-icons/io";
+import {IoClose} from "react-icons/io5";
+import {FaBell} from "react-icons/fa";
 
 
 const AdminHome = () => {
+
+    const [statusNav, setStatusNav] = useState(true);
+
+    function openNav() {
+        // @ts-ignore
+        document.getElementById("mySidenav").style.width = "250px";
+        // @ts-ignore
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        // @ts-ignore
+        document.getElementById("mySidenav").style.width = "0";
+        // @ts-ignore
+        document.getElementById("main").style.marginLeft = "0";
+    }
+
+    useEffect(() => {
+        if (statusNav) {
+            openNav();
+        } else {
+            closeNav();
+        }
+    }, [statusNav])
+
     return (
         <>
-            <div className={"container-fluid position-relative"}>
+            <div className={"container-fluid p-0"}>
+
+                <div id="mySidenav" className="sidenav mt-5">
+
+                    <a href="#">About</a>
+                    <a href="#">Services</a>
+                    <a href="#">Clients</a>
+                    <a href="#">Contact</a>
+                </div>
+
                 <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
-                        <Link className="navbar-brand" to={"/admin"}>FAHASHA ADMIN</Link>
+
+                        <div className={"d-flex align-items-center"}>
+                            <Link className="navbar-brand" to={"/admin"}>FAHASHA ADMIN</Link>
+                            <span className={"span-menu-admin mx-2"} onClick={() => setStatusNav(!statusNav)}>
+                        <IoMdMenu size={26}/>
+                    </span>
+                        </div>
+
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -26,9 +69,7 @@ const AdminHome = () => {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">Home</a>
-                                </li>
+
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">Link</a>
                                 </li>
@@ -38,8 +79,10 @@ const AdminHome = () => {
                                         Quản Lý Sách
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}  >Danh Sách Sách</Link></li>
-                                        <li><Link className="dropdown-item" to={"/admin/add-sach"} >Thêm Sách Sách</Link></li>
+                                        <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}>Danh Sách
+                                            Sách</Link></li>
+                                        <li><Link className="dropdown-item" to={"/admin/add-sach"}>Thêm Sách Sách</Link>
+                                        </li>
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
@@ -52,8 +95,10 @@ const AdminHome = () => {
                                         Quản Nhà Xuất Bản
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}  >Danh Sách Sách</Link></li>
-                                        <li><Link className="dropdown-item" to={"/admin/add-sach"} >Thêm Sách Sách</Link></li>
+                                        <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}>Danh Sách
+                                            Sách</Link></li>
+                                        <li><Link className="dropdown-item" to={"/admin/add-sach"}>Thêm Sách Sách</Link>
+                                        </li>
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
@@ -67,8 +112,10 @@ const AdminHome = () => {
                                         Quản Lý Thể Loại
                                     </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}  >Danh Sách Sách</Link></li>
-                                        <li><Link className="dropdown-item" to={"/admin/add-sach"} >Thêm Sách Sách</Link></li>
+                                        <li><Link className="dropdown-item" to={"/admin/quan-ly-sach"}>Danh Sách
+                                            Sách</Link></li>
+                                        <li><Link className="dropdown-item" to={"/admin/add-sach"}>Thêm Sách Sách</Link>
+                                        </li>
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
@@ -80,17 +127,29 @@ const AdminHome = () => {
                                        aria-disabled="true">Disabled</a>
                                 </li>
                             </ul>
+
+                            <div >
+                                <FaBell size={25} />
+                            </div>
+
                             <form className="d-flex">
                                 <input className="form-control me-2" type="search" placeholder="Search"
                                        aria-label="Search"/>
                                 <button className="btn btn-outline-success" type="submit">Search</button>
                             </form>
+
                         </div>
                     </div>
                 </nav>
+
+
             </div>
-            <main className={"min-vh-100 mx-5"}>
-                <Outlet/>
+            <main id={"main"} className={"min-vh-100 px-2 p-0"}>
+
+                <div className={"px-3"}>
+                    <Outlet/>
+                </div>
+
             </main>
             <footer className="py-3 my-4">
                 <ul className="nav justify-content-center border-bottom pb-3 mb-3">

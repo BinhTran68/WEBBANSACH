@@ -106,7 +106,23 @@ const ProductDetail = () => {
 
             const bookJson = JSON.stringify(booksAtLocalStore);
             localStorage.setItem("books",bookJson )
+
+        } else  {
+                // call api thêm sản phẩm vào giỏ hàng
+          const url = `${baseUrl}/api/cart/`
+
+
+            // gọi api thêm sản phẩm vào giỏ hàng;
+
+
+
+
+
+
+
+
         }
+
 
     }
 

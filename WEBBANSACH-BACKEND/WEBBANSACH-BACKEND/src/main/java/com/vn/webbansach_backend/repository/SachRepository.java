@@ -20,6 +20,9 @@ import java.util.List;
 @Repository
 public interface SachRepository extends JpaRepository<Sach, Integer> {
 
+
+    Sach findByMaSach(Integer maSach);
+
     Page<Sach> findByTenSachContaining(@RequestParam("tenSach") String tenSach, Pageable pageable);
 
     Page<Sach> findByDanhSachTheLoai_MaTheLoai(@RequestParam("maTheLoai") int maTheLoai, Pageable pageable);

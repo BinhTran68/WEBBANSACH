@@ -2,6 +2,9 @@ import React, {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom';
 import {baseUrl} from "../ultils/config";
 import {message} from "antd";
+import {jwtDecode} from "jwt-decode";
+import RequireAdmin, {JwtPayLoad} from "../admin/RequireAdmin";
+import {LiaObjectGroup} from "react-icons/lia";
 
 const DangNhap = () => {
 
@@ -61,10 +64,16 @@ const DangNhap = () => {
             (data) => {
                 const {jwt} = data;
                 localStorage.setItem("token", jwt);
-                navigate(-1);
+
+                const jwtDecoded = jwtDecode(jwt) as JwtPayLoad;
+                const roles = jwtDecoded.roles;
+                if (roles.includes("USER") && roles.length == 1) {
+                    navigate(-1);
+                }else {
+                    window.location.assign("/admin");
+                }
             }
         ).catch((error) => {
-
             setStatusMessage(false);
             setMessage("Đăng nhập không thành công. Vui lòng kiểm tra tài khoản mật khẩu")
         })

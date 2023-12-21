@@ -1,5 +1,3 @@
-import {useEffect, useState} from "react";
-
 export const baseUrl = "http://localhost:8080";
 
 export default function usePercentDiscount(giaNiemYet: number , giaBan: number) {
@@ -25,7 +23,14 @@ export const ROLE_USER_NHANVIEN_QUANLY:string[] = ["USER", "QUAN_LY", "NHAN_VIEN
 export const ROLE_USER_NHANVIEN:string[] = ["USER", "NHAN_VIEN"];
 export const ROLE_USER:string[] = ["USER"];
 
-export const  getToken = localStorage.getItem('token');
+// Hàm chạy 1 lần
+// export const  getToken = localStorage.getItem('token');
+
+
+// hàm chạy khi được gọi
+export const getToken = () => {
+    return localStorage.getItem('token');
+}
 
 export const logout = () => {
     localStorage.removeItem('token');

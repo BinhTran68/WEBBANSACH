@@ -1,8 +1,10 @@
 import {useEffect, useState} from 'react';
 import {jwtDecode} from 'jwt-decode';
+import set = Reflect.set;
 
 export function useAuth() {
     const [isLogin, setIsLogin] = useState(false);
+
     const [userName, setUserName] = useState('');
 
     const token = localStorage.getItem("token");
@@ -14,7 +16,15 @@ export function useAuth() {
                 const decodedToken = jwtDecode(token);
                 // Kiểm tra thời hạn của token;
                 const currentDate = new Date();
-                if (decodedToken.exp ? decodedToken.exp : 0 < currentDate.getTime()) {
+
+                const curentNumericDateSecond = Math.round(currentDate.getTime() / 1000);
+
+                // Nếu token hết hạn mà lớn hơn thời gian hiện tại là k đúng thì gọi hàm logout...
+                if (!decodedToken.exp ? decodedToken.exp : 0 > curentNumericDateSecond) {
+                    logout();
+                    setIsLogin(false);
+                    setUserName('');
+                } else {
                     setIsLogin(true);
                     setUserName(decodedToken.sub ? decodedToken.sub : '');
                 }
@@ -33,6 +43,7 @@ export function useAuth() {
         // Xóa token khỏi localStorage
         localStorage.removeItem('token');
         // Cập nhật trạng thái đăng nhập
+        setIsLogin(false);
         setUserName('');
     };
 

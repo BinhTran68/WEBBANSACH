@@ -1,10 +1,10 @@
 
-import { log } from 'console';
+
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getToken } from '../ultils/config';
-interface JwtPayLoad {
+export interface JwtPayLoad {
    roles:string[]
 }
 
@@ -13,7 +13,7 @@ const RequireAdmin = <P extends object>(WrappedComponent: React.ComponentType<P>
     const WithAdminCheck: React.FC<P> = (props) => {
         const navigate = useNavigate();
         useEffect(() => {
-            const token = getToken;
+            const token = getToken();
             // Trong tình huống chưa đăng nhập
             console.log(token);
             

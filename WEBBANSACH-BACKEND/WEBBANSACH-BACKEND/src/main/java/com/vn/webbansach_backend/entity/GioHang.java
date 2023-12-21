@@ -1,6 +1,7 @@
 package com.vn.webbansach_backend.entity;
 
 import com.vn.webbansach_backend.constant.StatusCart;
+import com.vn.webbansach_backend.entity.base.AuditEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +16,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 
 @Entity
 @NoArgsConstructor
@@ -22,13 +25,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "gio_hang")
-public class GioHang {
+public class GioHang  extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int maGioHang;
 
+    private StatusCart statusCart;
 
+    private Long tongTien;
+
+    private int soLuong;
 
     @ManyToOne(
             cascade = {
@@ -39,7 +46,13 @@ public class GioHang {
     private NguoiDung nguoiDung;
 
 
-    private Long tongTien;
+    @ManyToOne(
+            cascade = {
+                    CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE
+            }
+    )
+    @JoinColumn(name = "ma_sach", nullable = false)
+    private Sach sach;
 
 
 }

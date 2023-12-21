@@ -25,10 +25,12 @@ public class Endpoints {
             "/api/client/get-info-sach",
             "/api/client/get-book-by-category"
 
-
-
-
     };
+
+    public static final String[] USER_GET_ENDPOINTS = {
+            "/api/cart/get-product-bycart"
+    };
+
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/api/account/register",
