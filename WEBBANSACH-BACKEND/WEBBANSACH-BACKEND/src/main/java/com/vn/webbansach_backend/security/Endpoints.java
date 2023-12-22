@@ -28,7 +28,8 @@ public class Endpoints {
     };
 
     public static final String[] USER_GET_ENDPOINTS = {
-            "/api/cart/get-product-bycart"
+            "/api/cart/get-product-bycart",
+            "/api/cart/get-product-bycart",
     };
 
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,7 @@ public class CartController {
     }
 
 
-    @GetMapping("/add-product-to-cart")
+    @PostMapping("/add-product-to-cart")
     public ResponseEntity<?> addProductToCartUser(@RequestHeader(name = "Authorization") String token, @RequestParam("maSach") Integer maSach,@RequestParam(value = "soLuong", defaultValue = 1+"") Integer soLuong) {
 
         token = token.substring(7);
