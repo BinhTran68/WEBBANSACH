@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
@@ -26,6 +27,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
+@ToString
 @Table(name = "gio_hang")
 public class GioHang  extends AuditEntity {
 
@@ -35,7 +37,7 @@ public class GioHang  extends AuditEntity {
 
     private StatusCart statusCart;
 
-    private Long tongTien;
+    private Double tongTien;
 
     private int soLuong;
 

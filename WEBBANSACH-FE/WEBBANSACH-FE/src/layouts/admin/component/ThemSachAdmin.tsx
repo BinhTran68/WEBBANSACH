@@ -121,7 +121,7 @@ const ThemSachAdmin: React.FC<{}> = () => {
         formData.append("bookImg", bookImage);
 
 
-        FileService.uploadImage(url, formData).then(
+        FileService.postApiFormDataAndAuthor(url, formData).then(
             (res) => {
                 if (res.status == 201) {
                     toast.success("Thêm sách thành công");

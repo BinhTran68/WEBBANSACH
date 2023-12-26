@@ -2,43 +2,46 @@ import axios from "axios"
 import {getToken} from "../../layouts/ultils/config";
 
 
-
-
-
-
-
 class AxiosApiService {
-    getApiResponse(url:string) {
+    getApiResponse(url: string) {
         return axios.get(url);
     }
 
-    getApiResponseAuthor(url:string) {
-
-
+    getApiResponseAuthor(url: string) {
 
 
         const config = {
-            headers: { Authorization: `Bearer ${getToken()}` }
+            headers: {Authorization: `Bearer ${getToken()}`}
         };
 
         return axios.get(url, config);
     }
 
-    uploadImage(url:string,fileFormData: any){
+    postApiFormDataAndAuthor(url: string, fileFormData: any) {
         const config = {
-            headers: { Authorization: `Bearer ${getToken()}` }
+            headers: {Authorization: `Bearer ${getToken()}`}
         };
 
         return axios.post(url, fileFormData, config);
     }
 
-    deleteApiWithAxios(url:string) {
+    postApiUrlAndAuthor(url: string) {
 
-        console.log(getToken());
         const config = {
-            headers: { Authorization: `Bearer ${getToken()}` }
+            headers: {Authorization: `Bearer ${getToken()}`}
         };
-        return axios.delete(url,config);
+
+        return axios.post(url,"", config);
+    }
+
+    deleteApiWithAxios(url: string) {
+
+
+        const config = {
+            headers: {Authorization: `Bearer ${getToken()}`}
+        };
+
+        return axios.delete(url, config);
     }
 
 }

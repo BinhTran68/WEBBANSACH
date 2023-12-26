@@ -6,4 +6,6 @@ public interface GioHangService {
     ResponseEntity<?> getAllProductByCart(String token);
 
     ResponseEntity<?> addProductToCartUser(String token, Integer maSach, Integer soLuong);
+
+    ResponseEntity<?> changeQuantityProduct(String token, Integer maSach, Integer newQuantity);
 }

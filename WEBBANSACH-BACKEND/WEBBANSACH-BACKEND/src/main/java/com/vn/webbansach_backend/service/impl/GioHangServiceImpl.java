@@ -46,7 +46,7 @@ public class GioHangServiceImpl implements GioHangService {
         String userName = jwtService.extractUserName(token);
         // Check userName
 
-        System.out.println("Tên người lấy giỏ hàng " +userName);
+        System.out.println("Tên người lấy giỏ hàng " + userName);
 
         NguoiDung nguoiDung = nguoiDungRepository.findNguoiDungByTenDangNhap(userName);
         if (nguoiDung == null) {
@@ -75,17 +75,46 @@ public class GioHangServiceImpl implements GioHangService {
 
         Sach sach = sachRepository.findById(maSach).orElseThrow(() -> new SachNotFoundException("Sách không còn tồn tại"));
 
-        GioHang gioHang = GioHang.builder()
-                .sach(sach)
-                .nguoiDung(nguoiDung)
-                .soLuong(soLuong)
-                .statusCart(StatusCart.CON_HANG)
-                .tongTien(Math.round(sach.getGiaBan() * soLuong))
-                .build();
+        GioHang gioHangExits = gioHangRepository.findGioHangByNguoiDungAndSach(nguoiDung, sach);
 
+        if (gioHangExits != null) {
+            gioHangExits.setSoLuong(gioHangExits.getSoLuong()+soLuong);
 
-        GioHang gioHangRs =   gioHangRepository.save(gioHang);
+            Double tongTien = (gioHangExits.getSoLuong()+soLuong) * sach.getGiaBan();
 
-        return ResponseEntity.ok(gioHangRs);
+            gioHangExits.setTongTien(tongTien);
+
+            gioHangRepository.save(gioHangExits);
+            return ResponseEntity.ok().build();
+        }else {
+            GioHang gioHang = GioHang.builder()
+                    .sach(sach)
+                    .nguoiDung(nguoiDung)
+                    .soLuong(soLuong)
+                    .statusCart(StatusCart.CON_HANG)
+                    .tongTien((sach.getGiaBan() * soLuong))
+                    .build();
+
+            gioHangRepository.save(gioHang);
+            return ResponseEntity.ok().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> changeQuantityProduct(String token, Integer maSach, Integer newQuantity) {
+        String userName = jwtService.extractUserName(token);
+        NguoiDung nguoiDung = nguoiDungRepository.findNguoiDungByTenDangNhap(userName);
+        if (nguoiDung == null) {
+            throw new ResourceNotFoundException("Người dùng không tồn tại");
+        }
+        Sach sach = sachRepository.findById(maSach).orElseThrow(
+                () -> new SachNotFoundException("Sách không còn tồn tại"));
+        GioHang gioHang = gioHangRepository.findGioHangByNguoiDungAndSach(nguoiDung, sach);
+        if (gioHang == null) {
+            return ResponseEntity.notFound().build();
+        }
+        gioHang.setSoLuong(newQuantity);
+        gioHangRepository.save(gioHang);
+        return ResponseEntity.ok().build();
     }
 }

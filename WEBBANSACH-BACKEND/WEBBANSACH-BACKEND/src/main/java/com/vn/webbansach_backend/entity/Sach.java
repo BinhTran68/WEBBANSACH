@@ -96,9 +96,6 @@ public class Sach extends AuditEntity {
 
 
 
-
-
-
     @OneToMany(
             mappedBy = "sach",
             fetch = FetchType.LAZY, cascade = {

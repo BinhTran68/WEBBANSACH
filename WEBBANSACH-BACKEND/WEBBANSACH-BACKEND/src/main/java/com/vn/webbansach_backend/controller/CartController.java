@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,5 +43,11 @@ public class CartController {
         return gioHangService.addProductToCartUser(token,maSach,soLuong);
     }
 
+    @PostMapping("/change-quantity-book")
+    public ResponseEntity<?> changeQuantityProduct(@RequestHeader(name = "Authorization") String token, @RequestParam("maSach") Integer maSach,@RequestParam("newQuantity")  Integer newQuantity ) {
+        token = token.substring(7);
+        System.out.println(token);
+        return gioHangService.changeQuantityProduct(token, maSach, newQuantity);
+    }
 
 }

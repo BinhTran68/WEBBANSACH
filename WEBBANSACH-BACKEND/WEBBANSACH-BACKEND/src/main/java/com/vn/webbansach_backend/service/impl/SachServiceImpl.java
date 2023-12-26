@@ -54,6 +54,7 @@ public class SachServiceImpl implements SachService {
 
 
     @Override
+    @Transactional
     public ResponseEntity<?> saveBookByRequest(SachRequest sachRequest, MultipartFile multipartFile) throws IOException {
 
         System.out.println(sachRequest.toString());

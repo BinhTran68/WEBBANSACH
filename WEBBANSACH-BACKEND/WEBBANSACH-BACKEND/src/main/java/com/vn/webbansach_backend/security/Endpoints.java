@@ -29,14 +29,22 @@ public class Endpoints {
 
     public static final String[] USER_GET_ENDPOINTS = {
             "/api/cart/get-product-bycart",
-            "/api/cart/get-product-bycart",
+            "/api/cart/change-quantity-book",
+
+    };
+    public static final String[] USER_POST_ENDPOINTS = {
+            "/api/cart/change-quantity-book",
+            "/api/cart/add-product-to-cart",
+
+
     };
 
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/api/account/register",
             "/api/account/login",
-            "/api/admin/hinh-anh/upload"
+            "/api/admin/hinh-anh/upload",
+
 
 
 

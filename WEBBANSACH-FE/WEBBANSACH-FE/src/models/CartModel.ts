@@ -5,6 +5,7 @@ interface CartModel {
     giaBan:number;
     giaNiemYet:number;
     soLuong:number;
+    soLuongTonKho:number;
     createdDate:number
 
 }

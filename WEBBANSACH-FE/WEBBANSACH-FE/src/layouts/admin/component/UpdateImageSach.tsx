@@ -186,7 +186,7 @@ const UpdateImageSach = () => {
         const url = `http://localhost:8080/api/admin/hinh-anh/update-hinh-anh?maSach=${maSach}`;
 
         // @ts-ignore
-        AxiosApiService.uploadImage(url, formData).then(
+        AxiosApiService.postApiFormDataAndAuthor(url, formData).then(
             (res) => {
                 if (res.status == 200) {
                     alert("Lưu thay đổi thành công");

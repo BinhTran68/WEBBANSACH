@@ -34,11 +34,14 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
 
+        System.out.println(request.getRequestURI());
+        System.out.println("token lấy được" +authHeader);
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
+            System.out.println(token);
             username = jwtService.extractUserName(token);
-
         }
+
 
         System.out.println("username đang đăng nhập" +username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

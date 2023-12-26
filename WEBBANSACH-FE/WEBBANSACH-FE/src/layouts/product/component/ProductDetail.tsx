@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {getBookById, getFlashSaleBook, getTheLatestBook} from '../../../api/SachAPI'
+import {getTheLatestBook} from '../../../api/SachAPI'
 import {useParams} from 'react-router-dom'
 import BookModel from '../../../models/BookModel';
-import {error} from 'console';
 import HinhAnhSanPham from './HinhAnhSanPham';
 import ProductReview from "./ProductReview";
 import DangTaiDuLieuComponent from '../../ultils/DangTaiDuLieuComponent';
@@ -13,6 +12,7 @@ import AxiosApiService from "../../../api/admin/AxiosApiService";
 import {baseUrl} from "../../ultils/config";
 import {useAuth} from "../../ultils/useAuth";
 import CartModel from "../../../models/CartModel";
+import Swal from "sweetalert2";
 
 
 const ProductDetail = () => {
@@ -76,23 +76,22 @@ const ProductDetail = () => {
         alert("Chuyển sang trang đăng nhập");
     }
 
-    const booksAtLocalStore: CartModel[] = JSON.parse(localStorage.getItem("books") as string  || "[]" ) ;
-
-
+    const booksAtLocalStore: CartModel[] = JSON.parse(localStorage.getItem("books") as string || "[]");
 
     const handlerAddToCard = () => {
         if (!isLogin) {
             const bookToCart: CartModel = {
-                maSach: book?.maSach?book.maSach:0,
-                tenSach: book?.tenSach?book.tenSach:"",
-                giaBan: book?.giaBan?book.giaBan:0,
-                giaNiemYet: book?.giaNiemYet?book.giaNiemYet:0,
-                linkImage:iconImageLink,
-                soLuong:quantity,
-                createdDate:Date.now()
+                maSach: book?.maSach ? book.maSach : 0,
+                tenSach: book?.tenSach ? book.tenSach : "",
+                giaBan: book?.giaBan ? book.giaBan : 0,
+                giaNiemYet: book?.giaNiemYet ? book.giaNiemYet : 0,
+                linkImage: iconImageLink,
+                soLuong: quantity,
+                soLuongTonKho: book?.soLuong?book.soLuong:0,
+                createdDate: Date.now()
             }
 
-            let bookExits = booksAtLocalStore.find((bookCart) => bookCart.maSach === bookToCart.maSach );
+            let bookExits = booksAtLocalStore.find((bookCart) => bookCart.maSach === bookToCart.maSach);
 
             if (bookExits) {
                 let index = booksAtLocalStore.findIndex((bookCart) => bookCart.maSach === bookToCart.maSach);
@@ -100,32 +99,42 @@ const ProductDetail = () => {
                 booksAtLocalStore[index].soLuong = bookToCart.soLuong + bookExits.soLuong;
                 booksAtLocalStore[index].createdDate = Date.now();
 
-            } else  {
+            } else {
                 booksAtLocalStore.push(bookToCart);
             }
 
             const bookJson = JSON.stringify(booksAtLocalStore);
-            localStorage.setItem("books",bookJson )
+            localStorage.setItem("books", bookJson)
+            Swal.fire({
+                title: "Thêm vào giỏ hàng thành công",
+                text: `${book?.tenSach}`,
+                icon: "success"
+            });
 
-        } else  {
-                // call api thêm sản phẩm vào giỏ hàng
-          const url = `${baseUrl}/api/cart/`
+        } else {
+            // call api thêm sản phẩm vào giỏ hàng
+            const url = `${baseUrl}/api/cart/add-product-to-cart?maSach=${book?.maSach}&soLuong=${quantity}`
+            AxiosApiService.postApiUrlAndAuthor(url).then(
+                (res) => {
+                    Swal.fire({
+                        title: "Thêm vào giỏ hàng thành công",
+                        text: `${book?.tenSach}`,
+                        icon: "success"
+                    });
+                }
+            ).catch(
+                (e) => {
+                    console.log(e);
+                    alert("Có lỗi xảy ra ")
+                }
 
-
-            // gọi api thêm sản phẩm vào giỏ hàng;
-
-
-
-
+            )
 
 
 
 
         }
-
-
     }
-
 
 
     useEffect(() => {
@@ -133,7 +142,7 @@ const ProductDetail = () => {
 
         AxiosApiService.getApiResponse(url).then((book) => {
                 // @ts-ignore
-            setBook(book.data);
+                setBook(book.data);
                 setDangTaiDuLieu(false);
             }
         ).catch((error) => {
@@ -144,8 +153,6 @@ const ProductDetail = () => {
 
 
     // Gọi api lấy ra thêm thông tin khác của quyển sách như tên nhà xuất bản ....
-
-
 
 
     if (dangTaiDuLieu) {
@@ -174,10 +181,9 @@ const ProductDetail = () => {
         )
     }
 
-    const getLinkByChild = (data:string) => {
+    const getLinkByChild = (data: string) => {
         setIconImageLink(data);
     }
-
 
 
     return (
@@ -209,7 +215,7 @@ const ProductDetail = () => {
                                     </div>
                                     <div className={"col-5"}>
                                         <p>Hình Thức bìa : <strong> {book.loaiBia}</strong></p>
-                                        <p>Nhà Xuất  : <strong> {book.nhaXuatBan}</strong></p>
+                                        <p>Nhà Xuất : <strong> {book.nhaXuatBan}</strong></p>
                                     </div>
 
                                 </div>
@@ -316,7 +322,7 @@ const ProductDetail = () => {
                                 Người Dịch
                             </div>
                             <div className={"col-6"}>
-                                {book.dichGia?book.dichGia:"None"}
+                                {book.dichGia ? book.dichGia : "None"}
                             </div>
                         </div>
                         <div className={"row mt-2 mb-2"}>
@@ -377,16 +383,12 @@ const ProductDetail = () => {
                     </div>
 
 
-
-
-
-
                 </div>
 
             </div>
 
             <div>
-                <ProductReview   maSach={maSachNumber}/>
+                <ProductReview maSach={maSachNumber}/>
             </div>
         </div>
     )
