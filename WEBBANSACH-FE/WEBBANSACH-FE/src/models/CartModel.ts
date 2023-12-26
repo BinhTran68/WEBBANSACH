@@ -2,6 +2,7 @@ interface CartModel {
     maSach:number;
     tenSach:string;
     linkImage:string;
+    statusCart:string;
     giaBan:number;
     giaNiemYet:number;
     soLuong:number;

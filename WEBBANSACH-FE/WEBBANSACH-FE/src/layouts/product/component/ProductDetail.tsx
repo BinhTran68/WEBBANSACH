@@ -9,7 +9,7 @@ import renderRaiting from '../../ultils/renderRaiting';
 import formattedPrice from '../../ultils/formattedPrice';
 import FeaturedProducts from "../../home/component/FeaturedProducts";
 import AxiosApiService from "../../../api/admin/AxiosApiService";
-import {baseUrl} from "../../ultils/config";
+import {baseUrl, STATUS_CART_CON_HANG} from "../../ultils/config";
 import {useAuth} from "../../ultils/useAuth";
 import CartModel from "../../../models/CartModel";
 import Swal from "sweetalert2";
@@ -87,6 +87,7 @@ const ProductDetail = () => {
                 giaNiemYet: book?.giaNiemYet ? book.giaNiemYet : 0,
                 linkImage: iconImageLink,
                 soLuong: quantity,
+                statusCart: STATUS_CART_CON_HANG,
                 soLuongTonKho: book?.soLuong?book.soLuong:0,
                 createdDate: Date.now()
             }

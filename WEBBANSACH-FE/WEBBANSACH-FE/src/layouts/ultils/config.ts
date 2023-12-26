@@ -23,6 +23,12 @@ export const ROLE_USER_NHANVIEN_QUANLY:string[] = ["USER", "QUAN_LY", "NHAN_VIEN
 export const ROLE_USER_NHANVIEN:string[] = ["USER", "NHAN_VIEN"];
 export const ROLE_USER:string[] = ["USER"];
 
+export const STATUS_CART_CON_HANG:string = "CON_HANG";
+export const STATUS_CART_HET_HANG:string = "HET_HANG";
+export const CON_HANG_GIO_HANG_CHO_THANH_TOAN:string = "CON_HANG_GIO_HANG_CHO_THANH_TOAN";
+
+
+
 // Hàm chạy 1 lần
 // export const  getToken = localStorage.getItem('token');
 

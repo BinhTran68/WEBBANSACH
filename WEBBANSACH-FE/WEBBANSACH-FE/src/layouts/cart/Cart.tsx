@@ -15,6 +15,10 @@ const Cart = () => {
 
     const [booksAtCart, setBooksAtCart] = useState<CartModel[]>([]);
 
+    const [booksToPay, setBooksToPay] = useState<CartModel[]>([])
+
+    const [totalMoney, setTotalMoney] = useState<number>(0);
+
 
     useEffect(() => {
         if (isLogin) {
@@ -61,6 +65,7 @@ const Cart = () => {
         } else {
             let newQuantity = 1;
             const newBookAtCart = booksAtCart.map((book) => {
+
                 if (book.maSach === maSach) {
                     if (book.soLuong < book.soLuongTonKho) {
                         newQuantity = book.soLuong + 1;
@@ -106,15 +111,30 @@ const Cart = () => {
         if (!isLogin) {
             const newBookAtLocalStore = booksAtCart.map((book) => {
                 if (book.maSach === maSach) {
-                    return {
-                        ...book, soLuong: (book.soLuong - 1)
-                    };
+                    if (book.soLuong > 1) {
+                        let newBooksToPay = [...booksToPay];
+                        newBooksToPay.forEach((bookAtToPay) => {
+                            if (bookAtToPay.maSach === maSach) {
+                                bookAtToPay.soLuong = book.soLuong - 1;
+                            }
+                        })
+                        setBooksToPay(newBooksToPay)
+                        return {
+                            ...book, soLuong: (book.soLuong - 1)
+                        };
+                    } else {
+                        alert("Số lượng tối thiểu là 1");
+                        return book;
+                    }
                 } else {
                     return book;
                 }
             });
+
             setBooksAtCart(newBookAtLocalStore);
             localStorage.setItem("books", JSON.stringify(newBookAtLocalStore));
+
+
         } else {
             // Lấy ra số lượng
             let newQuantity = 1;
@@ -224,6 +244,37 @@ const Cart = () => {
     }
 
 
+    const hanleSelectedItem = async (item: CartModel) => {
+        // Kiểm tra xem item đã tồn tại chưa nếu chưa thì add vào nếu rồi thì xóa đi
+        let index = -1;
+        index = booksToPay.findIndex((book) => book.maSach == item.maSach);
+
+        // Tạo một bản sao mới của booksToPay
+        let newBooksToPay = [...booksToPay];
+
+        if (index === -1) {
+            await newBooksToPay.push(item);
+            console.log(item);
+            setBooksToPay(newBooksToPay);
+        } else {
+            await newBooksToPay.splice(index, 1);
+            console.log(item);
+            setBooksToPay(newBooksToPay);
+        }
+    }
+    useEffect(() => {
+        console.log(booksToPay);
+        let totalMoney = 0;
+        booksToPay.forEach(
+            (book) => {
+                totalMoney = (book.giaBan * book.soLuong) + totalMoney;
+            }
+        )
+        console.log(totalMoney);
+        setTotalMoney(totalMoney);
+    }, [booksToPay, booksAtCart])
+
+
     // Check xem người dùng đã đăng nhập chưa. Nếu người dùng đã đăng nhập thì lấy danh sách
     // if (!isLogin) {
     if (booksAtCart === null || booksAtCart.length === 0) {
@@ -268,17 +319,16 @@ const Cart = () => {
                 <div className={"row"}>
 
 
-                    <div className={"col-md-9 p-0   rounded"}>
+                    <div className={"col-md-8 p-0   rounded"}>
 
                         <table className="table ">
-
-
                             <tbody>
                             {
                                 booksAtCart.map((item, index) => (
-                                    <tr className={"tr-table-cart "}>
-                                        <td className={"text-center"} >
-                                            <input className="form-check-input input-cart d-block m-auto" type="checkbox" value=""
+                                    <tr className={"tr-table-cart"}>
+                                        <td className={"text-center"}>
+                                            <input className="form-check-input input-cart d-block m-auto"
+                                                   onClick={() => hanleSelectedItem(item)} type="checkbox" value=""
                                                    id="flexCheckDefault"/>
                                         </td>
                                         <td>
@@ -348,31 +398,68 @@ const Cart = () => {
 
                     </div>
 
-                    <div className={"col-md-3 min-vh-100 row p-0 "}>
-                            <div className={"col-md-1 "}>
+                    <div className={"col-md-4 min-vh-100 row p-0 "}>
+                        <div className={"col-md-1 "}>
 
-                            </div>
-
-
-                            <div className={"col-md-11  p-0 rounded"} >
+                        </div>
 
 
-                                <div className={"bg-body w-100 p-2 rounded"}>
-                                    <div className={"d-flex mt-2 justify-content-between  align-items-center "}>
-                                        <span>Thành Tiền</span>
-                                        <span>2500000</span>
+                        <div className={"col-md-11  p-0 rounded"}>
+
+
+                            <div className={"bg-body w-100 p-2 mb-2 rounded"}>
+                                <div className={"d-flex mt-2 justify-content-between  align-items-center "}>
+                                    <h5>Khuyến mại</h5>
+
+                                </div>
+                                <div className={" "}>
+                                    <div>
+                                        <p>MÃ GIẢM GIÁ 25K - ĐƠN HÀNG TỪ 300K</p>
+                                        <small>Không Áp Dụng Cho Phiếu Quà Tặng và Sách Giáo Khoa </small>
                                     </div>
-                                    <hr/>
-                                    <div className={"d-flex mt-2 justify-content-between align-items-center "}>
-                                        <h6>Tổng Số Tiền Gồm VAT</h6>
-                                        <h5>2500000</h5>
+                                    <div>
+                                        <button className={"btn w-100 btn-primary"} disabled> Áp dụng</button>
                                     </div>
-                                    <button type="button" className="w-100 btn btn-danger btn-lg">Thanh Toán</button>
-
-
                                 </div>
 
                             </div>
+
+
+                            <div className={"bg-body w-100 p-2 mb-2 rounded"}>
+                                <div className={"d-flex mt-2 justify-content-between  align-items-center "}>
+                                    <h5>Khuyến mại</h5>
+
+                                </div>
+                                <div className={" "}>
+                                    <div>
+                                        <p>MÃ GIẢM GIÁ 25K - ĐƠN HÀNG TỪ 300K</p>
+                                        <small>Không Áp Dụng Cho Phiếu Quà Tặng và Sách Giáo Khoa </small>
+                                    </div>
+                                    <div>
+                                        <button className={"btn w-100 btn-primary"} disabled> Áp dụng</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div className={"bg-body w-100 p-2 text-center rounded"}>
+                                <div className={"d-flex mt-2 justify-content-between  align-items-center "}>
+                                    <span>Thành Tiền</span>
+                                    <span>2500000</span>
+                                </div>
+                                <hr/>
+                                <div className={"d-flex mt-2 justify-content-between align-items-center "}>
+                                    <h6>Tổng Số Tiền Gồm VAT</h6>
+                                    <h5>{formattedPrice(totalMoney)}</h5>
+                                </div>
+                                <small className={"text-danger float-md-start my-2"}>( Giảm giá chỉ áp dụng cho bán lẻ
+                                    )</small>
+                                <button type="button" className="w-100 btn btn-danger btn-lg">Thanh Toán</button>
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
@@ -380,34 +467,6 @@ const Cart = () => {
         )
     }
 
-    // }
-    // return (
-    //     <div className={"min-vh-100"}>
-    //         <div className={"py-3"}>
-    //             <h4>
-    //                 GIỎ HÀNG ( Sản Phẩm)
-    //             </h4>
-    //         </div>
-    //         <div className={"bg-light my-2 rounded text-center  py-5"}>
-    //             <div>
-    //                 <LiaCartArrowDownSolid color={""} size={160}/>
-    //             </div>
-    //             <small>
-    //                 Chưa có sản phẩm trong giỏ hàng
-    //             </small>
-    //
-    //             <div className={"text-center  mt-3"}>
-    //                 <Link to={"/san-phams"} type="button" className="btn w-25 btn-danger">Mua Sắm Ngay</Link>
-    //             </div>
-    //
-    //             <div className={`text-center mt-3 ${isLogin ? "d-none" : ""}`}>
-    //                 <Link to={"/dang-nhap"} type="button" className="btn w-25 btn-danger">Đăng Nhập Ngay</Link>
-    //             </div>
-    //         </div>
-    //
-    //
-    //     </div>
-    // );
 
 }
 
